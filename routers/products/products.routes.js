@@ -24,12 +24,21 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    let obj = req.body
-    console.log(colors.bold.bgWhite.black(`-- post /productos -- ejecutado, obj = \n${JSON.stringify(obj)}`))
+    const objReceived = req.body
+    console.log(colors.bold.bgWhite.black(`-- post /productos -- ejecutado, obj = \n${JSON.stringify(objReceived)}`))
+    let obj = { title, price, thumbnail } = objReceived
     const id = products[products.length - 1].id
-    obj['id'] = id + 1
-    products.push(obj)
-    res.json(obj)
+    if ( title && price && thumbnail){
+        obj['id'] = id + 1
+        products.push(obj)
+        return res
+                .status(200)
+                .json(obj)
+    }
+    return res
+            .status(400)
+            .json({success: false, error: "Attribute missed."})
+
 })
 
 router.put('/:id', (req, res) => {
