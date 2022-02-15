@@ -1,25 +1,23 @@
 const express = require('express')
-const colors = require('colors')
+// const colors = require('colors')
 
-const { Contenedor } = require("./contenedor")
+const apiRoutes = require('./routers/index')
+
 const PORT = process.env.PORT || 8080
 const app = express()
-const archivoContenedor = new Contenedor('productos.txt')
+const path = require('path');
+
 // Middleware
 app.use(express.json())
+app.use(express.urlencoded({ extended:true }))
+app.use(express.static(path.resolve(__dirname, './public')));
 
-app.get('/productos', async (req,res)=>{
-    console.log(colors.bold.bgWhite.black(`-- get /productos -- ejecutado`))
-    let arr = await archivoContenedor.getAll()
-    res.send(arr)
-})
+// Routes
+app.use('/api', apiRoutes)
 
-app.get('/productoRandom', async (req,res)=>{
-    console.log(colors.bold.bgWhite.black(`-- get /productoRandom -- ejecutado`))
-    let arr = await archivoContenedor.getAll()
-    let randomIndex = Math.floor(Math.random() * arr.length)
-    res.send(arr[randomIndex])
-})
+app.get('/', function(req, res) {
+    res.sendFile(path.join(__dirname, '/index.html'));
+  });
 
 const connectedServer = app.listen(PORT, ()=>{
     console.log(`Server is up and running on port ${PORT}`)

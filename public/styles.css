@@ -1,0 +1,44 @@
+*{  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+}    
+
+body{
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    height: 100vh;
+}
+
+main, #formCardContainer, .formPost{
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.outterBorderformCardContainer{
+    margin-top: 1rem;
+    padding: 0.4rem;
+    border-radius: 0.8rem;
+    background-color: hsl(180deg 42% 94% / 20%);
+}
+.formCardContainer{
+    background-color: hsl(0deg 0% 100% / 26%);
+    border-radius: 0.8rem;    
+    width: 18rem;
+}
+
+.formTitle{
+    color: #4d5f7a;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.formButton{
+    background-color: hsl(10deg 8% 99% / 70%);
+    border-radius: 0.5rem;
+    border: none;    
+    color: hsl(174deg 100% 31%);
+    margin: 0.2rem;
+    padding: 0.3rem;
+}
