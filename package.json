@@ -1,16 +1,17 @@
 {
-  "name": "Desafio_03",
+  "name": "desafio_04",
   "version": "1.0.0",
   "description": "",
-  "main": "SaraviaMoreiraJonathanMax.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "colors": "^1.4.0",
-    "express": "^4.17.2"
+    "colors": "1.4.0",
+    "express": "4.17.2"
   }
 }
