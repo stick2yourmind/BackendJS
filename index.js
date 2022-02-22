@@ -1,6 +1,4 @@
 const express = require('express')
-// import { engine } from 'express-handlebars'
-const { engine } = require('express-handlebars')
 const productRoutes = require('./routers/index')
 
 const PORT = process.env.PORT || 8080
