@@ -75,3 +75,12 @@ main, #formCardContainer, .formPost{
 .titleProduct, .priceProduct{
     text-align: center;
 }
+
+.linkContainer{
+    margin: 1rem;
+}
+
+.link{
+    color: aliceblue;
+    text-decoration: none;
+}

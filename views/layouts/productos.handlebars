@@ -12,8 +12,8 @@
 </head>
 <body>
     <main >
-        <div>
-            <a href="/" target="_blank" rel="noopener noreferrer">Ingresar productos</a>
+        <div class="linkContainer">
+            <a class="link" href="/" target="_blank" rel="noopener noreferrer">Ingresar productos</a>
         </div>
         {{#if showProducts}}
           <div class="productsContainer">
@@ -27,6 +27,8 @@
                 </div>
             {{/each}}
           </div>
+        {{else}}
+            <p> No posee productos para visualizar </p>
         {{/if}}
     </main>
 </body>
