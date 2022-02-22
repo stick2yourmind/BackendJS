@@ -48,26 +48,27 @@ main, #formCardContainer, .formPost{
     flex-wrap: wrap;
     padding: 1rem;
     justify-content: center;
-    align-items: center;
+    align-items: stretch;
 }
 
 .productContainer{
-    width: 15rem;
+    align-items: center;
     display: flex;
     flex-direction: column;
     margin: 0.4rem;
-    align-items: center;
+    width: 15rem;
 }
 
-.imgProduct{
+.imgProduct{    
+    border-radius: 0.5rem;
     height: 10rem;
-    width: auto;
-    object-fit: contain;
+    object-fit: cover;
+    width: 15rem;
 }
 
 .infoProduct{
-    display: flex;
     align-items: center;
+    display: flex;
     flex-direction: column;
     justify-content: center;
 }
