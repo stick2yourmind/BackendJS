@@ -4,7 +4,7 @@ const products = new ProductsApi();
 
 const listAllProductsController = (req, res) => {
   let allProducts = products.listAll()
-  return res.render('productos', {layout: 'productos', showProducts: allProducts.length, products: allProducts})
+  return res.render('productos', { showProducts: allProducts.length, products: allProducts })
 }
 
 

@@ -20,19 +20,14 @@ app.use('/', productRoutes)
 //     res.sendFile(path.join(__dirname, '/index.html'));
 // })
 
-
-
-// Engine template
-app.engine('handlebars', engine())
-// Setting path where will views be
+// Setting path where views will be
 app.set('views', './views')
 // Connecting views with engine templates
-app.set('view engine', 'handlebars')
+app.set('view engine', 'pug')
 
 // Renders index.handlebars
 app.get('/', function(req, res) {
-    console.log(`app.get('/', function(req, res)`)
-    res.render('index', {layout: 'main'})
+    res.render('index')
 })
 
 
