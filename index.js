@@ -1,6 +1,6 @@
 const express = require('express')
-// const colors = require('colors')
-
+// import { engine } from 'express-handlebars'
+const { engine } = require('express-handlebars')
 const apiRoutes = require('./routers/index')
 
 const PORT = process.env.PORT || 8080
@@ -17,7 +17,18 @@ app.use('/api', apiRoutes)
 
 app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname, '/index.html'));
-  });
+  })
+
+
+
+// Engine template
+app.engine('handlebars', engine())
+// Setting path where will views be
+app.set('views', './views')
+// Connecting views with engine templates
+app.set('view engine', 'handlebars')
+
+
 
 const connectedServer = app.listen(PORT, ()=>{
     console.log(`Server is up and running on port ${PORT}`)
