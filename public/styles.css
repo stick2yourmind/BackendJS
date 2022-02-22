@@ -60,9 +60,10 @@ main, #formCardContainer, .formPost{
 }
 
 .imgProduct{    
+    background: white;
     border-radius: 0.5rem;
     height: 10rem;
-    object-fit: cover;
+    object-fit: scale-down;
     width: 15rem;
 }
 
