@@ -15,21 +15,22 @@
         <div class="linkContainer">
             <a class="link" href="/" target="_blank" rel="noopener noreferrer">Ingresar productos</a>
         </div>
-        {{#if showProducts}}
-          <div class="productsContainer">
-            {{#each products}}
-                <div class="productContainer">
-                    <img src='{{{  this.thumbnail }}}' alt='{{{ this.title }}}' class="imgProduct">
-                    <div class="infoProduct">
-                        <h4 class='titleProduct'> {{  this.title }} </h4>
-                        <h4 class='priceProduct'> $ {{  this.price }} </h4>
+        <% if (showProducts) { %>
+            <div class="productsContainer">
+                <% products.forEach( product =>{ %>
+                    <div class="productContainer">
+                        <img src=<%= product.thumbnail %> alt="<%= `${product.title}` %>" class="imgProduct" >
+                        <div class="infoProduct">
+                            <h4 class='titleProduct'> <%=  product.title %> </h4>
+                            <h4 class='priceProduct'> $ <%=  product.price %> </h4>
+                        </div>
                     </div>
-                </div>
-            {{/each}}
-          </div>
-        {{else}}
+                <% }) %>
+              </div>
+
+        <% } else{ %>
             <p> No posee productos para visualizar </p>
-        {{/if}}
+        <% } %>
     </main>
 </body>
 </html>

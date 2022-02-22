@@ -22,17 +22,14 @@ app.use('/', productRoutes)
 
 
 
-// Engine template
-app.engine('handlebars', engine())
 // Setting path where will views be
 app.set('views', './views')
-// Connecting views with engine templates
-app.set('view engine', 'handlebars')
+// Connecting views with EJS engine templates
+app.set('view engine', 'ejs')
 
 // Renders index.handlebars
 app.get('/', function(req, res) {
-    console.log(`app.get('/', function(req, res)`)
-    res.render('index', {layout: 'main'})
+    res.render('index')
 })
 
 
