@@ -4,8 +4,11 @@ const products = new ProductsApi();
 
 const listAllProductsController = (req, res) => {
   let allProducts = products.listAll()
-  return res.json(allProducts)
-};
+  console.log(' -- listAllProductsController --')
+  return res.render('productos', {layout: 'productos', showProducts: true, products: allProducts})
+  //return res.json(allProducts)
+}
+
 
 const listProductByIdController = (req, res) => {
   const { idProduct } = req.params   
@@ -17,7 +20,10 @@ const listProductByIdController = (req, res) => {
 const saveProductController = (req, res) => {
   const newProduct = products.save(req.body)
   if (newProduct.error) return res.status(400).send(newProduct.error)
-  return res.json(newProduct)
+  return res.render('index', {layout: 'main'})
+  // return res.redirect('/')
+
+  // return res.json(newProduct)
 }
 
 const updateProductController = (req, res) => {
