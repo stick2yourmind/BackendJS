@@ -70,7 +70,7 @@ io.on('connection', (socket) => {
     socket.on('newMsg', (newMsg) => {
         newMsg = {
             ...newMsg,
-            date: moment().format("YYYY-MM-DD HH:mm:ss")
+            date: moment().format("DD-MM-YYYY HH:mm:ss")
         }
         messages = [...messages, newMsg]
         nuevoArchivo.save(newMsg)

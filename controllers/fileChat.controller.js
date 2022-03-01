@@ -54,7 +54,7 @@ const lastID = (path, encode) => {
     let lastID = 0
     try{
         let dataReaded = fs.readFileSync(path, encode)
-        let arrReaded = dataReaded.match(/{[\n\r'"\wáéíóú¿?¡! :,.\/-]+[}]/g)
+        let arrReaded = dataReaded.match(/{[\n\r'"\wáéíóú¿?¡! :,@.\/-]+[}]/g)
         lastID = JSON.parse(arrReaded.pop()).id
     }
     catch(err){
@@ -69,7 +69,7 @@ const readFnId = async(path, encode, id) => {
     let objSelected = null
     try{
         let strReaded = await fs.promises.readFile(path, encode)
-        let arrReaded = strReaded.match(/{[\n\r'"\wáéíóú¿?¡! :,.\/-]+[}]/g)
+        let arrReaded = strReaded.match(/{[\n\r'"\wáéíóú¿?¡! :,@.\/-]+[}]/g)
         for(let i=0; i<arrReaded.length; i++){
             let objAux = JSON.parse(arrReaded[i])
             if(objAux.id == id){
@@ -93,7 +93,7 @@ const readFnAll = async(path, encode) => {
     let arrAll = null
     try{
         let strReaded = await fs.promises.readFile(path, encode)
-        arrAll = strReaded.match(/{[\n\r'"\wáéíóú¿?¡! :,.\/-]+[}]/g)
+        arrAll = strReaded.match(/{[\n\r'"\wáéíóú¿?¡! :,@.\/-]+[}]/g)
         for(i=0; i<arrAll.length; i++){
             arrAll[i] = JSON.parse(arrAll[i])
         }
