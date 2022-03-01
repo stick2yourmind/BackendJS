@@ -1,71 +1,66 @@
-# Desafio motores de plantilla
+# Desafio websockets
+- [Desafio websockets](#desafio-websockets)
 - [Consigna](#consigna)
-- [Uso de motores de plantilla](#uso-de-motores-de-plantilla)
-- [Conclusión y motor de plantilla preferido](#conclusion-y-motor-de-plantilla-preferido)
+- [Nuevas secciones:](#nuevas-secciones)
 
 # Consigna
-Utilizando la misma API de productos del proyecto entregable de la clase
-anterior, construir un web server (no REST) que incorpore:
 
-1. Un formulario de carga de productos en la ruta raíz (configurar la ruta
-    '/productos' para recibir el POST, y redirigir al mismo formulario).
+1. Puede haber varios clientes conectados simultáneamente y en cada uno de ellos se reflejarán
+    los cambios que se realicen en los productos sin necesidad de recargar la vista.
 
-2. Una vista de los productos cargados (utilizando plantillas de
-    handlebars) en la ruta GET '/productos'.
+2. Cuando un cliente se conecte, recibirá la lista de productos a representar en la vista.
 
-3. Ambas páginas contarán con un botón que redirija a la otra.
+3. En la parte inferior del formulario de ingreso se presentará el centro de mensajes almacenados en el
+    servidor, donde figuren los mensajes de todos los usuarios identificados por su email.
    
-4. Manteniendo la misma funcionalidad reemplazar el motor de plantillas
-    handlebars por pug.
+4. El formato a representar será: email (texto negrita en azul) [fecha y hora (DD/MM/YYYY
+    HH:MM:SS)](texto normal en marrón) : mensaje (texto italic en verde)
 
-5. Manteniendo la misma funcionalidad reemplazar el motor de plantillas
-    handlebars por ejs.
+5. Además incorporar dos elementos de entrada: uno para que el usuario ingrese su email (obligatorio
+    para poder utilizar el chat) y otro para ingresar mensajes y enviarlos mediante un botón.
 
-6. Por escrito, indicar cuál de los tres motores de plantillas prefieres para tu
-    proyecto y por qué.
+6. Los mensajes deben persistir en el servidor en un archivo (ver segundo entregable).
 
-# Uso de motores de plantilla
-Los motores de plantillas fueron implementadas en diferentes branchs, pero antes de poder utilizarlas se debe clonar el repositorio y hacer un 
-fetch de todas las branch.
 
-### Pasos iniciales antes de implementar la branch deseada:
-```
-git clone https://github.com/stick2yourmind/BackendJS.git
-cd BackendJS
-git branch -r | grep -v '\->' | sed "s,\x1B\[[0-9;]*[a-zA-Z],,g" | while read remote; do git branch --track "${remote#origin/}" "$remote"; done
-git fetch --all
-git pull --all
-```
-
-### Implementación de los diferentes motores de plantillas:
- - [Motor de plantilla Handlebars: Implementado en la branch main](#motor-de-plantilla-handlebars-implementado-en-la-branch-main)
- - [Motor de plantilla Pug: Implementado en la branch pugRendered](#motor-de-plantilla-pug-implementado-en-la-branch-pugrendered)
- - [Motor de plantilla Ejs: Implementado en la branch ejsRendered](#motor-de-plantilla-ejs-implementado-en-la-branch-ejsrendered)
-#### Motor de plantilla Handlebars: Implementado en la branch main:
-```
-git stash
-git checkout main
-npm install
-```
-#### Motor de plantilla Pug: Implementado en la branch pugRendered:
-```
-git stash
-git checkout pugRendered
-npm install
-```
-#### Motor de plantilla Ejs: Implementado en la branch ejsRendered:
-```
-git stash
-git checkout ejsRendered
-npm install
-```
-
-# Conclusion y motor de plantilla preferido:
-El motor de plantilla Pug fue mi preferido, pude realizar lo mismo con menos código y lo mejor es que quedo mucho mas legible.
-La única consideración es tener cuidado con la identación.
-
-Handlebars y EJS son mas amigables, para la primera vez que se usa un motor de plantillas, pero añaden mas lineas de código 
-de las que me gustan: al mantener la estructura de maquetación con las etiquetas es sencillo de interpretar. 
-
-EJS en particular no me gustó nada, su uso obliga al excesivo uso de etiquetas <%, <%=, <%=- y %>. Al tener que agregar 
-mas etiquetas tambien se perdia la identación de los nodos internos cuando es necesario utilizar código javascript, dificultando la interpretación.
+# Nuevas secciones:
+Se han añadido dos secciones: 
+ - Lista de productos actualizable dinamicamente, usando websockets.
+ - Chat con contenido dinamico, usando websockets.
+<p align="center">
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/nuevas-secciones.JPG?raw=true" alt="nuevas secciones"/>
+</p>
+La sección de productos disponibles se actualiza dinamicamente al ingresar un nuevo producto.
+La sección de chat posee un login de usuario, el usuario debe ser un email. Una vez logueado se visualizara la sección de chat y logout.
+<p align="center">
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-01.JPG?raw=true" alt="seccion de login"/>
+</p>
+Luego de logearse se visualizara la sala de chat junto a un mensaje de bienvenida:
+<p align="center">
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-02.JPG?raw=true" alt="seccion de login - bienvenida"/>
+</p>
+Para escribir un nuevo mensaje se utiliza el input y el boton de enviar o enter:
+<p align="center">
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-03.JPG?raw=true" alt="seccion de login - bienvenida"/>
+</p>
+Una vez enviado el mensaje se visualiza en la sala de chat y el mensaje es almacenado en el archivo chat.txt alojado en el servidor:
+<p align="center">
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-04.JPG?raw=true" alt="seccion de login - nuevo usuario"/>
+</p>
+Se posee persistencia del chat en un archivo llamado chat.txt alojado en el servidor, por lo tanto, es posible visualizar conversaciones
+que ocurrieron incluso antes de loguearse con un nuevo usuario:
+<p align="center">
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-05.JPG?raw=true" alt="seccion de login - nuevo usuario"/>
+</p>
+De la misma manera varios usuarios pueden interactuar recibiendo los mensajes de manera inmediate, al dispararse un evento de websockets
+se añade el contenido nuevo de manera dinamica:
+<p align="center">
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-06.JPG?raw=true" alt="seccion de login - nuevo comentario"/>
+</p>
+Ejemplo de un tercer usuario que interactua con otros usuarios que se conectaron incluso antes que este entrase a la sala de chat:
+<p align="center">
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-07.JPG?raw=true" alt="seccion de login - tercer usuario"/>
+</p>
+Si se desea salir de la sala solo es necesario presionar el boton "salir" y se volvera a la sección de login de usuario: 
+<p align="center">
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-07.JPG?raw=true" alt="seccion de login - tercer usuario"/>
+</p>
