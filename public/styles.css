@@ -87,24 +87,67 @@ main, #formCardContainer, .formPost{
     text-decoration: none;
 }
 
-#productsAvailablesHome{
-    border: 1px solid black;
-}
+/* #productsAvailablesHome{
+    height: 20rem;
+    overflow-y: auto;
+} */
 
 .titleH3{
+    backdrop-filter: saturate(40%) blur(301px);
+    background-color: rgba(0,0,0,0.7);
+    color: azure;
     font-size: 1.5rem;
-    text-align: center;
     margin-bottom: 1.5rem;
+    position: sticky;
+    text-align: center;
+    top: 0px;
+    z-index: 10;
 }
 
 #productListContainerHome{
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 .productContainerHome{
+    align-items: center;
     display: flex;
     flex-direction: column;
-    align-items: center;
     margin-bottom: 1rem;
+}
+
+#userLoggedContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+#chatHead{
+    display: flex;
+    flex-direction: column;
+}
+
+#chatRoom{
+    display: flex;
+    flex-direction: column;
+    height: 5rem;
+    overflow-y: auto;
+}
+.chatMsg{
+    display: flex;
+}
+.chatMsgUser{
+    color:blue;
+    margin: 0 0.3rem;
+}
+.chatMsgDate{
+    color:brown;
+    margin: 0 0.3rem;
+}
+.chatMsgMsg{
+    color:green;
+    margin: 0 0.3rem;
+}
+#formNewMsg{
+    display: flex;
+    flex-direction: row;
 }
