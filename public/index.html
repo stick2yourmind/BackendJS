@@ -8,20 +8,32 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,600;1,700;1,900&display=swap" rel="stylesheet">
-    <title>Desafio 04</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+    <script src="/socket.io/socket.io.js" ></script>
+    <!-- <script src="./indexFetcher.js"></script> -->
+    <script src="main.js" defer></script>
+    <title>Desafio 06 - Websockets</title>
 </head>
 <body>
     <main >
         <div class="outterBorderformCardContainer" >
             <div class="formCardContainer">
                 <h2 class="formTitle"> Ingreso de productos </h2>
-                <form action="/api/productos" method="post" class="form formPost">
+                <form action="/productos" method="post" class="form formPost" id="formNewProduct">
                     <input type="text" name="title" id="formTitle" class="formInput" placeholder="Titulo">   
                     <input type="number" name="price" id="formPrice" class="formInput" placeholder="Precio">   
                     <input type="text" name="thumbnail" id="formThumbnail" class="formInput" placeholder="Link de la imagen">   
                     <button type="submit" class="formButton"> Crear producto </button>
                 </form>
             </div>
+        </div>
+        <div class="linkContainer">
+            <a class="link" href="/productos" target="_blank" rel="noopener noreferrer">Ver productos ingresados</a>
+        </div>
+        <div id="productsAvailablesHome" >
+            <h3 class="titleH3"> Productos disponibles </h3>
+            <ul id="productListContainerHome" >
+            </ul>            
         </div>
     </main>
 </body>

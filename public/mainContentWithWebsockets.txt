@@ -1,0 +1,6 @@
+
+<div id="productsAvailablesHome" >
+    <h3 class="titleH3"> Productos disponibles </h3>
+    <ul id="productListContainerHome" >
+    </ul>            
+</div>

@@ -41,4 +41,6 @@ module.exports = {
   saveProductController,
   updateProductController,
   deleteProductController,
+  products
 }
+
