@@ -30,7 +30,6 @@ formNewProduct.addEventListener('submit', (e) => {
     price: formPrice.value,
     thumbnail: formThumbnail.value
   }
-  console.log('msg: ', msg)
   socket.emit('newProduct', msg)
   formTitle.value = ''
   formPrice.value = ''
@@ -44,7 +43,6 @@ formLogin.addEventListener('submit', (e) => {
     const user = {
       user: userLogged
     }
-    console.log('user: ', user)
     socket.emit('newUserLogged', user)
     inputUser.value = ''
     userLoggedWelcome.innerText = `Bienvenido ${userLogged}`
@@ -70,7 +68,6 @@ formNewMsg.addEventListener('submit', (e) => {
     user: userLogged,
     msg: inputNewMsg.value
   }
-  console.log('newMsg: ', newMsg)
   socket.emit('newMsg', newMsg)
   inputNewMsg.value = ''
 })
@@ -88,7 +85,6 @@ const renderProduct = (product) => {
 }
 
 const renderNewMsg = (newMsg) => {
-  console.log('newMsg', newMsg)
   const divNewMsg = document.createElement("div")
   const pUser = document.createElement("p")
   const pDate = document.createElement("p")
@@ -100,7 +96,6 @@ const renderNewMsg = (newMsg) => {
   pUser.innerHTML = `${newMsg.user}`
   pDate.innerHTML = `[${newMsg.date}] :`
   pMsg.innerHTML = `${newMsg.msg}`
-  // console.log('pMsg: ', pMsg)
   divNewMsg.appendChild(pUser)
   divNewMsg.appendChild(pDate)
   divNewMsg.appendChild(pMsg)
@@ -116,3 +111,7 @@ socket.on('newProduct', (product) => productList.appendChild(renderProduct(produ
 
 socket.on('newMsg', (newMsg) => chatRoom.appendChild(renderNewMsg(newMsg) ))
 
+socket.on('messages', (messages) => {
+  if(Array.isArray(messages) && messages.length)
+    messages.forEach((msg)=> chatRoom.appendChild(renderNewMsg(msg)))
+})

@@ -5,11 +5,13 @@ const http = require('http')
 const socketIo = require('socket.io')
 const { products } = require('./controllers/products.controllers')
 const moment = require('moment')
+const { fileChat } = require('./controllers/fileChat.controller')
 
 const PORT = process.env.PORT || 8080
 const app = express()
 const httpServer = http.createServer(app);
 const io = socketIo(httpServer);
+const nuevoArchivo = new fileChat('chat.txt')
 
 // Middleware
 app.use(express.json())
@@ -42,11 +44,22 @@ connectedServer.on('error', (error)=>{
 
 let messages = []
 
+const msgHistory = async ()=>{
+    let aux = await nuevoArchivo.getAll()
+    return aux
+}
+
 io.on('connection', (socket) => {
     console.log('New client connection!')
    
-    // Send messages
+    // Send products
     socket.emit('products', products.listAll())
+    
+    // Send messages
+
+    msgHistory().then(messages =>{
+        socket.emit('messages', messages)
+    })
   
 
     socket.on('newProduct', (product) => {
@@ -60,6 +73,7 @@ io.on('connection', (socket) => {
             date: moment().format("YYYY-MM-DD HH:mm:ss")
         }
         messages = [...messages, newMsg]
+        nuevoArchivo.save(newMsg)
         io.emit('newMsg', newMsg)
       })
   })
