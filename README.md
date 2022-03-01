@@ -62,5 +62,5 @@ Ejemplo de un tercer usuario que interactua con otros usuarios que se conectaron
 </p>
 Si se desea salir de la sala solo es necesario presionar el boton "salir" y se volvera a la sección de login de usuario: 
 <p align="center">
-  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-07.JPG?raw=true" alt="seccion de login - tercer usuario"/>
+  <img src="https://github.com/stick2yourmind/BackendJS/blob/main/capturas_entrega/seccion-chat-con-websockets-etapa-08.JPG?raw=true" alt="seccion de login - logout"/>
 </p>
