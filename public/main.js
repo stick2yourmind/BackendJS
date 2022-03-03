@@ -1,5 +1,6 @@
 const socket = io('http://localhost:8080')
 
+const productListContainer = document.getElementById('productsAvailablesHome')
 const productList = document.getElementById('productListContainerHome')
 
 const chatRoom = document.getElementById('chatRoom')
@@ -72,16 +73,15 @@ formNewMsg.addEventListener('submit', (e) => {
   inputNewMsg.value = ''
 })
 
-const renderProduct = (product) => {
-  let htmlProduct = `<img src='${  product.thumbnail }' alt='${ product.title }' class="imgProduct">
-  <div class="infoProduct">
-      <h4 class='titleProduct'> ${ product.title } </h4>
-      <h4 class='priceProduct'> $ ${ product.price } </h4>
-  </div>`
-  const liProduct = document.createElement("li")
-  liProduct.classList.add('productContainerHome')
-  liProduct.innerHTML = htmlProduct
-  return liProduct
+const renderProducts = async (products) => {
+  let response = await fetch('templates/lista_productos.handlebars')
+  console.log('response',response)
+  const template = await response.text()
+  console.log('template',template)
+  const templateCompiled = Handlebars.compile(template)
+  console.log('templateCompiled',templateCompiled)
+  const html = templateCompiled({ products })
+  return html
 }
 
 const renderNewMsg = (newMsg) => {
@@ -103,11 +103,13 @@ const renderNewMsg = (newMsg) => {
   return divNewMsg
 }
 
-socket.on('products', (products) => {
-  products.forEach( product => productList.appendChild(renderProduct(product)))
+socket.on('products', async (products) => {
+  console.log('products: ', products)
+  const html = await renderProducts(products)
+  productList.innerHTML = html
 })
 
-socket.on('newProduct', (product) => productList.appendChild(renderProduct(product) ))
+// socket.on('newProduct', async(product) => productListContainer.append((await renderProducts(product)) ))
 
 socket.on('newMsg', (newMsg) => chatRoom.appendChild(renderNewMsg(newMsg) ))
 

@@ -1,0 +1,9 @@
+{{#if products.length}}
+    {{#each products}}
+    <img src='{{  this.thumbnail }}' alt='{{ this.title }}' class="imgProduct">
+    <div class="infoProduct">
+        <h4 class='titleProduct'> {{ this.title }} </h4>
+        <h4 class='priceProduct'> $ {{ this.price }} </h4>
+    </div>
+    {{/each}}
+{{/if}}

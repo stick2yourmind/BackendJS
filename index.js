@@ -64,7 +64,8 @@ io.on('connection', (socket) => {
 
     socket.on('newProduct', (product) => {
         products.save(product)
-        io.emit('newProduct', product)
+        // io.emit('newProduct', product)
+        io.emit('products', products.listAll())
       })
 
     socket.on('newMsg', (newMsg) => {
