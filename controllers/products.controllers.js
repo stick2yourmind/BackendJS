@@ -1,10 +1,11 @@
-const { ProductsApi } = require('../models/index');
+const { ProductsApi } = require('../models/index')
 
-const products = new ProductsApi();
+const products = new ProductsApi()
 
 const listAllProductsController = (req, res) => {
   let allProducts = products.listAll()
-  return res.render('productos', {layout: 'productos', showProducts: allProducts.length, products: allProducts})
+  if (allProducts.error) return res.status(404).send(allProducts.error)
+  return res.json(allProducts)
 }
 
 
@@ -18,7 +19,7 @@ const listProductByIdController = (req, res) => {
 const saveProductController = (req, res) => {
   const newProduct = products.save(req.body)
   if (newProduct.error) return res.status(400).send(newProduct.error)
-  return res.render('index', {layout: 'main'})
+  return res.json(newProduct)
 }
 
 const updateProductController = (req, res) => {

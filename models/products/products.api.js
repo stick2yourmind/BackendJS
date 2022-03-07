@@ -1,23 +1,34 @@
+const { v4: uuidv4 } = require('uuid')
+const moment = require('moment')
+
 class ProductsApi {
     constructor() {
       this.products = [];
     }
-    static idCount = 0;
   
     listAll() {
-      return [...this.products]
+      const allProducts = [...this.products]
+      if(!allProducts.length) return { error: `There are no products registered.` }
+      return allProducts
     }
   
     listByID(id) {
-      const product = this.products.find(prod => prod.id === +id)
+      console.log('id: ', id)
+      console.log('typeOf: ', typeof(id))
+      const product = this.products.find(prod => {
+        console.log('String.toString(prod.id): ', String.toString(prod.id))
+        if(String.toString(prod.id) == id)
+          return true
+      })
       return product || { error: `Product with id: ${id} does not exist!` }
     }
       
     save(product) {
-      const { title, price, thumbnail } = product
-      if (!title || !price || !thumbnail ) return { error: 'Attribute missed.' }
-      if (price < 0 || isNaN(price)) return { error: 'Attribute price must be a positive number.' }
-      const newProduct = { title, price, thumbnail, id: ++ProductsApi.idCount }
+      const { nombre, descripcion, foto, precio, stock } = product
+      if (!nombre || !descripcion || !foto || !precio || !stock ) return { error: 'Attribute missed.' }
+      if (precio < 0 || isNaN(precio)) return { error: 'Attribute price must be a positive number.' }
+      const newProduct = { id: uuidv4(), timestamp: moment().format("DD-MM-YYYY HH:mm:ss"), codigo: uuidv4(),
+        nombre, descripcion, foto, precio, stock }
       this.products.push(newProduct)
       return newProduct
     }
@@ -25,7 +36,7 @@ class ProductsApi {
     update(product, id) {
       const index = this.products.findIndex(prod => prod.id === +id)
       if (index < 0) return { error: `Product with id ${id} not found.` }
-      this.products[index] = { id: +id, ...product }
+      this.products[index] = {  ...product, id: +id }
       return this.products[index]
     }
   

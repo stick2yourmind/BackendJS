@@ -6,6 +6,7 @@ const router = express.Router()
 
 // Routes
 router.use('/productos', productRoutes)
+// router.use('/carrito', cartRoutes)
 
 
 module.exports = router
