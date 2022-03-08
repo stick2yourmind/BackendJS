@@ -4,6 +4,7 @@ const {
   deleteCartController,
   listAllProductsByIdCartController,
   addProductToCartController,
+  deleteProductFromCartController,
   notFound
 } = require('../../controllers/carts.controllers');
 
@@ -13,6 +14,7 @@ router.post('/', createCartController)
 router.delete('/:idCart', deleteCartController)
 router.get('/:idCart/productos', listAllProductsByIdCartController)
 router.post('/:idCart/productos', addProductToCartController)
+router.delete('/:idCart/productos/:idProduct', deleteProductFromCartController)
 
 
 // router.get('/', listAllProductsController);

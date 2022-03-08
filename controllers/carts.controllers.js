@@ -43,16 +43,12 @@ const addProductToCartController = (req, res) => {
   return res.json(cartUpdated)
 }
 
-// const listProductByIdController = (req, res) => {
-//   const { idProduct } = req.params   
-//   const productById = products.listByID(idProduct)
-//   if (productById.error) return res.status(404).send(productById.error)
-//   return res.json(productById)
-// }
-
-
-
-
+const deleteProductFromCartController = (req, res) => {
+  const { idCart, idProduct } = req.params
+  const productDeleted = carts.deleteProduct(idCart, idProduct)
+  if (productDeleted.error) return res.status(404).send(productDeleted.error)
+  return res.json(productDeleted)
+}
 
 const notFound = (req, res) =>{
   return res.status(404).send(errorNotFound(req.baseUrl, req.path, req.method))
@@ -63,6 +59,7 @@ module.exports = {
   deleteCartController,
   listAllProductsByIdCartController,
   addProductToCartController,
+  deleteProductFromCartController,
   notFound,
 }
 
