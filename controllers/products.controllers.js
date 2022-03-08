@@ -2,8 +2,13 @@ const { ProductsApi } = require('../models/index')
 
 const products = new ProductsApi()
 
-const listAllProductsController = (req, res) => {
-  let allProducts = products.listAll()
+const errorNotFound = (baseUrl,path, method) => ({ 
+  error: -2,
+  descripcion: `Ruta ${baseUrl}${path} del método ${method} no implementada`
+})
+
+const listAllProductsController = ({res}) => {
+  const allProducts = products.listAll()
   if (allProducts.error) return res.status(404).send(allProducts.error)
   return res.json(allProducts)
 }
@@ -36,12 +41,29 @@ const deleteProductController = (req, res) => {
   return res.json(productDeleted)
 }
 
+const getNotFound = (req, res) =>{
+  return res.status(404).send(errorNotFound(req.baseUrl, req.path, 'GET'))
+}
+const postNotFound = (req, res) =>{
+  return res.status(404).send(errorNotFound(req.baseUrl, req.path, 'POST'))
+}
+const putNotFound = (req, res) =>{
+  return res.status(404).send(errorNotFound(req.baseUrl, req.path, 'PUT'))
+}
+const deleteNotFound = (req, res) =>{
+  return res.status(404).send(errorNotFound(req.baseUrl, req.path, 'DELETE'))
+}
+
 module.exports = {
   listAllProductsController,
   listProductByIdController,
   saveProductController,
   updateProductController,
   deleteProductController,
+  getNotFound,
+  postNotFound,
+  putNotFound,
+  deleteNotFound,
   products
 }
 

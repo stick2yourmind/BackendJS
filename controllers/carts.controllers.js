@@ -1,0 +1,68 @@
+const { CartsApi } = require('../models/index')
+const { products } = require('./products.controllers')
+
+const carts = new CartsApi()
+
+const errorNotFound = (baseUrl,path, method) => ({ 
+  error: -2,
+  descripcion: `Ruta ${baseUrl}${path} del método ${method} no implementada`
+})
+
+/**
+ * List all products from a cart. Route: /api/carrito/:id/productos.
+ * @param {string} id - The cart's id.
+ * @return {array} The products from cart selected.
+ */
+ const createCartController = ({res}) => {
+  const newCartId = carts.create()
+  carts.listAll()
+  return res.json(newCartId)
+}
+
+const deleteCartController = (req, res) => {
+  const { idCart } = req.params
+  const cartDeleted = carts.deleteCart(idCart)
+  if (cartDeleted.error) return res.status(404).send(cartDeleted.error)
+  carts.listAll()
+  return res.json(cartDeleted)
+}
+
+const listAllProductsByIdCartController = (req, res) => {
+  const { idCart } = req.params
+  const cartProducts = carts.listByID(idCart)
+  if (cartProducts.error) return res.status(404).send(cartProducts.error)
+  carts.listAll()
+  return res.json(cartProducts)
+}
+
+const addProductToCartController = (req, res) => {
+  const { idCart } = req.params
+  const productsToAdd = [...req.body]
+  const cartUpdated = carts.addProducts(idCart, productsToAdd, products)
+  if (cartUpdated.error) return res.status(404).send(cartUpdated.error)
+  return res.json(cartUpdated)
+}
+
+// const listProductByIdController = (req, res) => {
+//   const { idProduct } = req.params   
+//   const productById = products.listByID(idProduct)
+//   if (productById.error) return res.status(404).send(productById.error)
+//   return res.json(productById)
+// }
+
+
+
+
+
+const notFound = (req, res) =>{
+  return res.status(404).send(errorNotFound(req.baseUrl, req.path, req.method))
+}
+
+module.exports = {
+  createCartController,
+  deleteCartController,
+  listAllProductsByIdCartController,
+  addProductToCartController,
+  notFound,
+}
+
