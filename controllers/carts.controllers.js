@@ -37,10 +37,10 @@ const listAllProductsByIdCartController = (req, res) => {
 
 const addProductToCartController = (req, res) => {
   const { idCart } = req.params
-  const productsToAdd = [...req.body]
-  const cartUpdated = carts.addProducts(idCart, productsToAdd, products)
-  if (cartUpdated.error) return res.status(404).send(cartUpdated.error)
-  return res.json(cartUpdated)
+  const productToAdd = req.body
+  const productAdded = carts.addProductById(idCart, productToAdd, products)
+  if (productAdded.error) return res.status(404).send(productAdded.error)
+  return res.json(productAdded)
 }
 
 const deleteProductFromCartController = (req, res) => {

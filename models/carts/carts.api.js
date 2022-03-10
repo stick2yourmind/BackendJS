@@ -1,20 +1,12 @@
 const { v4: uuidv4 } = require('uuid')
 const moment = require('moment')
 
-
-const isCartItemFromClientValid = ({ nombre, descripcion, codigo, foto, precio, stock }) =>{
-  if (!nombre || !descripcion || !foto || !precio || !stock || !codigo )
-    return false
-  return true
-}
-
 class CartsApi {
     constructor() {
       this.carts = [];
     }
     /**
-     * List all products from a cart. Route: /api/carrito/:id/productos.
-     * @param {string} id - The cart's id.
+     * List all products from a cart. 
      * @return {array} The products from cart selected.
      */
     listAll(){
@@ -23,18 +15,18 @@ class CartsApi {
     }
 
     /**
-     * List all products from a cart. Route: /api/carrito/:id/productos.
-     * @param {string} id - The cart's id.
+     * List a cart fetched by its id.
+     * @param {string} id - Cart's id. 
      * @return {array} The products from cart selected.
      */
-    listByID(id) {
-      const cart = this.carts.find(cart =>  !cart.id.localeCompare(id) )
+    listByID(idCart) {
+      const cart = this.carts.find(cart =>  !cart.id.localeCompare(idCart) )
       console.log('cart selected:\n', cart)
-      return cart?.products || { error: `Cart with id: ${id} does not exist!` }
+      return cart?.products || { error: `Cart with id: ${idCart} does not exist!` }
     }
       
      /**
-     * Create a cart without products. Route: /api/carrito.
+     * Create a cart without products.
      * @return {string} The cart's id.
      */
     create() {
@@ -54,39 +46,40 @@ class CartsApi {
     }
     /**
      * Add a product to a cart.
-     * @param {object[]} productsToAdd - Products to add.
-     * @param {number} index - Cart's index to modify.
-     * @return {object[]} Array of objects which indicates a succefully operation or an error.
+     * @param {string} idCart - Cart's id.
+     * @param {object} productsToAdd - Products to add which contains it's id property.
+     * @param {object[]} products - Array of products at DB.
+     * @return {object} Product added.
      */
-     addProducts( idCart, productsToAdd, products) {
-       const indexCart = this.indexCartById(idCart)
-       if(indexCart.error) return indexCart
-       const result = productsToAdd.map( product => {
-         if(!product.id) return { error: `Product's id missed.` }
-         if(product.cantidad<=0 || !product.cantidad ) return { error: `Product's quantity missed or invalid.` }
-         let productFetched = products.listByID(product.id)
-         if(!productFetched.error){
-          if(productFetched.stock < product.cantidad) return { error: `Quantity requested are greater than stock.` }
-          const prodIndexToUpdate = this.carts[indexCart].products.findIndex(prod => prod.id === productFetched.id)
-          console.log('prodIndexToUpdate: ', prodIndexToUpdate)
-          let prodToUpdate = this.carts[indexCart].products.splice(prodIndexToUpdate, 1)
-          console.log('prodToUpdate: ', prodToUpdate)
-          console.log('prodToUpdate.cantidad: ', prodToUpdate.cantidad)
-          console.log('product.cantidad: ', product.cantidad)
-          prodToUpdate[0]?.cantidad ? prodToUpdate[0].cantidad+=product.cantidad
-                                 : prodToUpdate[0] = {...productFetched, cantidad:product.cantidad}
-          if(productFetched.stock < prodToUpdate[0].cantidad) return { error: `Quantity requested are greater than stock.Can't update quantity.` }
-          delete prodToUpdate[0].stock
-          this.carts[indexCart].products.push(prodToUpdate[0])
-          productFetched = this.carts[indexCart].products.at(-1)
-         } 
-         return productFetched
-       })
-       return result
-    }
+    //  addProductById( idCart, productToAdd, products) {
+    //    const indexCart = this.indexCartById(idCart)
+    //    if(indexCart.error) return indexCart
+    //    const result = productsToAdd.map( product => {
+    //      if(!product.id) return { error: `Product's id missed.` }
+    //      if(product.cantidad<=0 || !product.cantidad ) return { error: `Product's quantity missed or invalid.` }
+    //      let productFetched = products.listByID(product.id)
+    //      if(!productFetched.error){
+    //       if(productFetched.stock < product.cantidad) return { error: `Quantity requested are greater than stock.` }
+    //       const prodIndexToUpdate = this.carts[indexCart].products.findIndex(prod => prod.id === productFetched.id)
+    //       console.log('prodIndexToUpdate: ', prodIndexToUpdate)
+    //       let prodToUpdate = this.carts[indexCart].products.splice(prodIndexToUpdate, 1)
+    //       console.log('prodToUpdate: ', prodToUpdate)
+    //       console.log('prodToUpdate.cantidad: ', prodToUpdate.cantidad)
+    //       console.log('product.cantidad: ', product.cantidad)
+    //       prodToUpdate[0]?.cantidad ? prodToUpdate[0].cantidad+=product.cantidad
+    //                              : prodToUpdate[0] = {...productFetched, cantidad:product.cantidad}
+    //       if(productFetched.stock < prodToUpdate[0].cantidad) return { error: `Quantity requested are greater than stock.Can't update quantity.` }
+    //       delete prodToUpdate[0].stock
+    //       this.carts[indexCart].products.push(prodToUpdate[0])
+    //       productFetched = this.carts[indexCart].products.at(-1)
+    //      } 
+    //      return productFetched
+    //    })
+    //    return result
+    // }
     /**
      * Delete a cart.
-     * @param {number} idCart - Cart's id.
+     * @param {string} idCart - Cart's id.
      * @return {object} Return the product deleted.
      */
     deleteCart(idCart) {
@@ -96,9 +89,9 @@ class CartsApi {
     }
     /**
      * Delete a product from a specified cart.
-     * @param {number} idCart - Cart's id.
-     * @param {number} idProduct - Product's id to delete.
-     * @return {object[]} Array of objects which indicates a succefully operation or an error.
+     * @param {string} idCart - Cart's id.
+     * @param {string} idProduct - Product's id to delete.
+     * @return {object[]} Array of objects which were deleted.
      */    
     deleteProduct(idCart, idProduct) {
       const indexCart = this.indexCartById(idCart)
