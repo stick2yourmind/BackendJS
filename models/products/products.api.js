@@ -1,11 +1,31 @@
 class ProductsApi {
-    constructor() {
-      this.products = [];
+    constructor(knexConfig, tableName) {
+      // this.products = [];
+      this.knexConfig = knexConfig
+      this.tableName = tableName
+      const knex = require('knex')(knexConfig)
     }
-    static idCount = 0;
+    // static idCount = 0;
   
     listAll() {
-      return [...this.products]
+      // return [...this.products]
+      try{
+        const tableExists = await knex.schema.hasTable(this.tableName)
+        if(tableExists){
+            const products = await knex.from(this.tableName).select('*')
+            console.table(products)
+        }
+        else
+            console.log('Table do not exists.Instruction aborted.')
+
+      }
+      catch(error){
+          console.log(error)
+          throw error
+      }
+      // finally{
+      //     knex.destroy()
+      // }
     }
   
     listByID(id) {
