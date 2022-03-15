@@ -1,4 +1,4 @@
-const { path } = require("express/lib/application");
+const path = require('path');
 
 module.exports = {
     mariaDB : {
