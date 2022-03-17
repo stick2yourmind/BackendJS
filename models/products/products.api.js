@@ -1,154 +1,141 @@
-class ProductsApi {
+class contenedorDB {
     constructor(knexConfig, tableName) {
-      // this.products = [];
       this.knexConfig = knexConfig
       this.tableName = tableName
     }
-    // static idCount = 0;
-  
+    /**
+     * List all registers or documents.
+     * @returns {Array} All registers or documents.
+     */
     async listAll() {
-      // return [...this.products]
+      let registers = null
       const knex = require('knex')(this.knexConfig);
       try{
         const tableExists = await knex.schema.hasTable(this.tableName)
         if(tableExists){
-            const products = await knex.from(this.tableName).select('*')
-            console.log('---------- Table from: listAll ----------')
-            console.table(products)
+            registers = await knex.from(this.tableName).select('*')
+            if(!registers.length) registers = {error: `Registers or documents could not be searched.`}
+            //else registers = {...registers[0]}
         }
-        else
-            console.log('Table do not exists.Instruction aborted.')
-
+        else registers = { error: 'Table do not exists.Instruction aborted.' }
       }
       catch(error){
-          console.log(error)
-          throw error
+        registers = {error}
       }
       finally{
           knex.destroy()
+          return registers
       }
     }
-  
-    async listByID(id) {
-      // const product = this.products.find(prod => prod.id === +id)
-      let product = null
+    /**
+     * List a register or document searched by its id.
+     * @param {number|string} id - id from register or document to search.
+     * @returns {Object} Returns the register or document searched, but error.
+     */
+    async listByID(id) { 
+      let register = null
       const knex = require('knex')(this.knexConfig);
       try{
         const tableExists = await knex.schema.hasTable(this.tableName)
         if(tableExists){
-            product = await knex.from(this.tableName).select('*')
-            .where('id', id)
-            console.log('---------- Table from: listByID ----------')
-            console.table(product)
+            register = await knex(this.tableName).select('*').where('id', id)
+            if(!register.length) register = {error: `Register or document with id: ${id} not found.`}
+            else register = {...register[0]}
         }
-        else{
-          console.log('Table do not exists.Instruction aborted.')
-
-        }
-            
-
+        else register = { error: 'Table do not exists.Instruction aborted.' }
       }
       catch(error){
-          console.log(error)
-          throw error
+        register = {error}
       }
       finally{
           knex.destroy()
+          return register
       }
-      return product || { error: `Product with id: ${id} does not exist!` }
     }
-      
-    async save(product) {
-      const { title, price, thumbnail } = product
-      if (!title || !price || !thumbnail ) return { error: 'Attribute missed.' }
-      if (price < 0 || isNaN(price)) return { error: 'Attribute price must be a positive number.' }
-      // const newProduct = { title, price, thumbnail, id: ++ProductsApi.idCount }
-      // this.products.push(newProduct)
-      const newProduct = { title, price, thumbnail }
+    /**
+     * Saves a new register or document.
+     * @param {Object} newRegister - New register or document to save.
+     * @returns {Object} Returns the register or document saved if it was succesfull, but error.
+     */
+    async save(newRegister) {
+      let registerSaved = null
       const knex = require('knex')(this.knexConfig)
       try{
         const tableExists = await knex.schema.hasTable(this.tableName)
         if(tableExists){
-            const products = await knex(this.tableName).insert(newProduct)
-            console.log('---------- Table from: save ----------')
-            console.table(products)
-            return newProduct
+            const idFromRegisterSaved = await knex(this.tableName).insert(newRegister)
+            if(!idFromRegisterSaved) registerSaved = {error: `Register or document could not be saved.`}
+            else{
+              registerSaved = await knex(this.tableName).where('id', idFromRegisterSaved)
+              registerSaved = {...registerSaved[0]}
+            } 
         }
-        else{
-          console.log('Table do not exists.Instruction aborted.')
-          return { error: 'Table do not exists.Instruction aborted.' }
-        }
+        else registerSaved = { error: 'Table do not exists.Instruction aborted.' }
 
       }
       catch(error){
-          console.log(error)
-          throw error
+        registerSaved = {error}
       }
       finally{
           knex.destroy()
+          return registerSaved
       }
     }
-  
-    async update(product, id) {
-      // const index = this.products.findIndex(prod => prod.id === +id)
+    /**
+     * Updates a register by using its id.
+     * @param {Object} newRegister - New register or document tobe updated .
+     * @param {number|string} id - id from register or document to update.
+     * @returns {Object} Returns the register or document updated if it was succesfull, but error.
+     */
+    async update(newRegister, id) {
+      let registerUpdated = null
       const knex = require('knex')(this.knexConfig)
-      let productUpdated = null
-      const { title, price, thumbnail } = product
-      if (!(title || price || thumbnail )) return { error: 'Attribute missed.' }
       try{
         const tableExists = await knex.schema.hasTable(this.tableName)
         if(tableExists){
-            productUpdated = await knex(this.tableName).where('id', id).update(product)
-            console.log('---------- Table from: update ----------')
-            if(productUpdated)
-            productUpdated = await knex(this.tableName).where('id', id)
-            console.table(productUpdated)
+            registerUpdated = await knex(this.tableName).where('id', id).update(newRegister)
+            if(!registerUpdated) registerUpdated = {error: `Register or document with id: ${id} not found.`}
+            else{
+              registerUpdated = await knex(this.tableName).where('id', id)
+              registerUpdated = {...registerUpdated[0]}
+            }
         }
-        else{
-          console.log('---------- Table from: update else ----------')
-          console.log('Table do not exists.Instruction aborted.')
-          return { error: 'Table do not exists.Instruction aborted.' }
-        }
-
+        else registerUpdated = { error: 'Table do not exists.Instruction aborted.' }
       }
       catch(error){
-          console.log('---------- Table from: update catch ----------')
-          console.log(error)
-          throw error
+          registerUpdated = {error}
       }
       finally{
-          console.log('---------- Table from: update finally ----------')
           knex.destroy()
-          return productUpdated
+          return registerUpdated
       }
     }
-  
+    /**
+     * Delete element by its id.
+     * @param {number|string} id - Register's id to delete from DB.
+     * @returns {Object} - Returns an object which cointains element deleted or error.
+     */
     async delete(id) {
-      let product = null
+      let register = null
       const knex = require('knex')(this.knexConfig);
       try{
         const tableExists = await knex.schema.hasTable(this.tableName)
         if(tableExists){
-            product = await knex.from(this.tableName).where('id', id).del()
-            console.log('---------- Table from: delete ----------')
-            console.table(product)
+            const aux = await knex.from(this.tableName).where('id', id)
+            register = await knex.from(this.tableName).where('id', id).del()
+            if(!register) register = {error: `Register or document with id: ${id} not found.`}
+            else register = {...aux[0]}
         }
-        else{
-          console.log('Table do not exists.Instruction aborted.')
-
-        }
-            
-
+        else register = {error: `Table do not exists.Instruction aborted.`}
       }
       catch(error){
-          console.log(error)
-          throw error
+        register = {error}
       }
       finally{
           knex.destroy()
-          return product || { error: `Product with id: ${id} does not exist!` }
+          return register 
       }
     }
   }
   
-  module.exports = ProductsApi;
+  module.exports = contenedorDB;

@@ -4,10 +4,10 @@ const Product = new ProductsApi(dbconfig.mariaDB, 'productos')
 
 
 ;(async () => {
-    await Product.listAll()
-    await Product.save({title:'W77', price: 100, thumbnail: 'img link'})
-    await Product.listAll()
-    await Product.listByID(9)
-    await Product.update({title: 'Camara W77', price: 4600}, 9)
-    await Product.delete(9)
+    console.table(await Product.listAll())
+    console.log('save: \n',await Product.save({title:'W77', price: 100, thumbnail: 'img link'}))
+    console.table(await Product.listAll())
+    console.log('listByID: \n',await Product.listByID(82))
+    console.log('update: \n',await Product.update({title: 'Camara W77', price: 4600}, 82))
+    console.log('delete: \n',await Product.delete(82))
 })()
