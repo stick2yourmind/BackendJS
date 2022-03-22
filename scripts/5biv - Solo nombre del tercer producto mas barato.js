@@ -1,0 +1,1 @@
+db.productos.find({}, {title:1, _id:0}).sort( {price: 1} ).skip(3).limit(1)

@@ -1,0 +1,1 @@
+db.productos.deleteMany({price:{$lt:1000}})

@@ -1,0 +1,1 @@
+db.productos.insertOne({title: "Led Cob 50w Grow Indoor Full Spectrum Cultivo 220v Genérico", price: 664.05, thumbnail: "https://http2.mlstatic.com/D_NQ_NP_2X_975376-MLA47398451697_092021-F.webp"})
