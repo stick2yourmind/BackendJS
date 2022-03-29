@@ -7,7 +7,7 @@ const router = Router()
 
 // Routes
 router.use('/productos', productsRoutes)
-router.use('/carts', cartsRoutes)
+router.use('/carrito', cartsRoutes)
 
 // Error handler
 router.use(errorHandler)

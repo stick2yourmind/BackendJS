@@ -26,10 +26,13 @@ class MongoContainer {
     return documents
   }
 
-  async getById(id) {
+  async getById(id, populateColl=null, fields=null) {
+    let document = {}
     if(!mongoose.isValidObjectId(id))
       throw new Error(`-MongoDB- ${id} is not a valid ObjectId`)
-    const document = await this.model.findOne({ _id: id }, {__v: 0})
+    if(populateColl)
+       document = await this.model.findOne({ _id: id }, { __v: 0}).populate(populateColl, fields)
+       else document = await this.model.findOne({ _id: id }, {__v: 0})
     if (!document) 
       throw new Error(`-MongoDB- Document with id: ${id} could not be found!`)
     return document
@@ -66,14 +69,32 @@ class MongoContainer {
     return deletedDocument
   }
 
-  async addItemToArray(item, idParent){
-    if(!mongoose.isValidObjectId(idParent))
-      throw new Error(`-MongoDB- ${idParent} is not a valid ObjectId`)
-    const updatedDocument = await this.model.updateOne({ _id:idParent }, { $push: { products: item } })
+  async addItemToArray(cartId, item, arr){
+    if(!mongoose.isValidObjectId(cartId))
+      throw new Error(`-MongoDB- ${cartId} is not a valid ObjectId`)
+    const updatedDocument = await this.model.updateOne({ _id:cartId }, { $push: { [arr]: item } })
+    if (!updatedDocument.matchedCount)
+      throw new Error(`-MongoDB- Document with id: ${id} could not been found!`)
+    return updatedDocument
+  }
+
+  // db.carts.updateOne(
+  //   {_id:ObjectId("62429e908ef49ab6fbbdcbab")},
+  //   { $pull: { products: ObjectId("6242413f2a4fb1bba4528e8d") } }
+  // )
+  async removeItemFromArray(cartId, itemId, arr){
+    if(!mongoose.isValidObjectId(cartId))
+      throw new Error(`-MongoDB- ${cartId} is not a valid ObjectId`)
+    if(!mongoose.isValidObjectId(itemId))
+      throw new Error(`-MongoDB- ${itemId} is not a valid ObjectId`) 
+    console.log(`cartId, itemId, arr: ${cartId}, ${itemId}, ${arr}`) 
+    const updatedDocument = await this.model.updateOne({ _id:cartId }, { $pull: { products: itemId } })
     if (!updatedDocument.matchedCount)
       throw new Error(`-MongoDB- Document with id: ${id} could not been found!`)
     return updatedDocument
   }
 }
+
+
 
 module.exports = MongoContainer

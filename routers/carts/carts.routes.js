@@ -1,7 +1,7 @@
 const { Router } = require('express')
 const {
   createCart,
-  deleteCart,
+  deleteCartById,
   getCartById,
   addProductToCart,
   deleteProductFromCart
@@ -12,12 +12,12 @@ const router = Router()
 
 router.post('/', createCart)
 
-router.delete('/:id', deleteCart)
+router.delete('/:id', deleteCartById)
 
 router.get('/:id/productos', getCartById)
 
 router.post('/:id/productos', addProductToCart)
 
-router.delete('/:id/productos/:id_prod', deleteProductFromCart)
+router.delete('/:id/productos/:idProd', deleteProductFromCart)
 
 module.exports = router
