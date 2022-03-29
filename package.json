@@ -1,24 +1,28 @@
 {
-  "name": "desafio_04",
-  "version": "1.0.0",
-  "description": "",
+  "name": "backend-js",
+  "version": "2.0.0",
+  "description": "Segunda entrega del proyecto final",
   "main": "index.js",
   "engines": {
     "node": "16.x"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stick2yourmind/BackendJS.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/stick2yourmind/BackendJS/issues"
+  },
+  "homepage": "https://github.com/stick2yourmind/BackendJS#readme",
   "dependencies": {
-    "colors": "1.4.0",
-    "express": "4.17.2",
-    "express-handlebars": "6.0.2",
-    "moment": "2.29.1",
-    "socket.io": "^4.4.1",
-    "uuid": "^8.3.2"
+    "express": "^4.17.3",
+    "firebase-admin": "^10.0.2",
+    "mongoose": "^6.2.8"
   }
 }

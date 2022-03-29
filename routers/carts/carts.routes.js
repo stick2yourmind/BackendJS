@@ -1,34 +1,23 @@
-const express = require('express');
+const { Router } = require('express')
 const {
-  createCartController, 
-  deleteCartController,
-  listAllProductsByIdCartController,
-  addProductToCartController,
-  deleteProductFromCartController,
-  notFound
-} = require('../../controllers/carts.controllers');
-
-const router = express.Router();
-
-router.post('/', createCartController)
-router.delete('/:idCart', deleteCartController)
-router.get('/:idCart/productos', listAllProductsByIdCartController)
-router.post('/:idCart/productos', addProductToCartController)
-router.delete('/:idCart/productos/:idProduct', deleteProductFromCartController)
+  createCart,
+  deleteCart,
+  getCartById,
+  addProductToCart,
+  deleteProductFromCart
+} = require('../../controllers/carts.controllers')
 
 
-// router.get('/', listAllProductsController);
+const router = Router()
 
-// router.get('/:idProduct', listProductByIdController);
+router.post('/', createCart)
 
+router.delete('/:id', deleteCart)
 
-// router.put('/:idProduct', updateProductController);
+router.get('/:id/productos', getCartById)
 
-// router.delete('/:idProduct', deleteProductController);
+router.post('/:id/productos', addProductToCart)
 
-router.get('*', notFound)
-router.post('*', notFound)
-router.put('*', notFound)
-router.delete('*', notFound)
+router.delete('/:id/productos/:id_prod', deleteProductFromCart)
 
 module.exports = router

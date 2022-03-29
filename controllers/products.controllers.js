@@ -1,69 +1,64 @@
-const { ProductsApi } = require('../models/index')
+const { ProductsDao } = require('../models/daos/index')
 
-const products = new ProductsApi()
+const productsDao = new ProductsDao()
 
-const errorNotFound = (baseUrl,path, method) => ({ 
-  error: -2,
-  descripcion: `Ruta ${baseUrl}${path} del método ${method} no implementada`
-})
-
-const listAllProductsController = ({res}) => {
-  const allProducts = products.listAll()
-  if (allProducts.error) return res.status(404).send(allProducts.error)
-  return res.json(allProducts)
+const getAllProducts = async (req, res, next) => {
+  try {
+    const products = await productsDao.getAll()
+    res.json({ success: true, products })
+  }
+  catch(error) {
+    next(error)
+  }
 }
 
-
-const listProductByIdController = (req, res) => {
-  const { idProduct } = req.params   
-  const productById = products.listByID(idProduct)
-  if (productById.error) return res.status(404).send(productById.error)
-  return res.json(productById)
+const getProductById = async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const product = await productsDao.getById(id)
+    res.json({ success: true, product })
+  }
+  catch(error) {
+    next(error)
+  }
 }
 
-const saveProductController = (req, res) => {
-  const newProduct = products.save(req.body)
-  if (newProduct.error) return res.status(400).send(newProduct.error)
-  return res.json(newProduct)
+const createProduct = async (req, res, next) => {
+  try {
+    const newProduct = await productsDao.create(req.body)
+    res.json({ success: true, result: newProduct })
+  }
+  catch(error) {
+    next(error)
+  }
 }
 
-const updateProductController = (req, res) => {
-  const { idProduct } = req.params
-  const productUpdated = products.update(req.body, idProduct)
-  if (productUpdated.error) return res.status(404).send(productUpdated.error)
-  return res.json(productUpdated)
+const updateProductById = async (req, res, next) => {
+  const { params: { id }, body } = req
+  try {
+    const updatedProduct = await productsDao.updateById(id, body)
+    res.json({ success: true, result: updatedProduct })
+  }
+  catch(error) {
+    next(error)
+  }
 }
 
-const deleteProductController = (req, res) => {
-  const { idProduct } = req.params
-  const productDeleted = products.delete(idProduct)
-  if (productDeleted.error) return res.status(404).send(productDeleted.error)
-  return res.json(productDeleted)
-}
-
-const getNotFound = (req, res) =>{
-  return res.status(404).send(errorNotFound(req.baseUrl, req.path, 'GET'))
-}
-const postNotFound = (req, res) =>{
-  return res.status(404).send(errorNotFound(req.baseUrl, req.path, 'POST'))
-}
-const putNotFound = (req, res) =>{
-  return res.status(404).send(errorNotFound(req.baseUrl, req.path, 'PUT'))
-}
-const deleteNotFound = (req, res) =>{
-  return res.status(404).send(errorNotFound(req.baseUrl, req.path, 'DELETE'))
+const deleteProductById = async (req, res, next) => {
+  const { id } = req.params
+  try {
+    const deletedProduct = await productsDao.deleteById(id)
+    res.json({ success: true, result: deletedProduct })
+  }
+  catch(error) {
+    next(error)
+  }
 }
 
 module.exports = {
-  listAllProductsController,
-  listProductByIdController,
-  saveProductController,
-  updateProductController,
-  deleteProductController,
-  getNotFound,
-  postNotFound,
-  putNotFound,
-  deleteNotFound,
-  products
+  getAllProducts,
+  getProductById,
+  createProduct,
+  updateProductById,
+  deleteProductById,
 }
-
