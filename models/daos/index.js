@@ -1,10 +1,6 @@
 const { PERS } = require('../../config')
 
 const persistence = {
-    FIREBASE: {
-        products: require('./products/FirebaseProductsDao'),
-        carts : require('./carts/FirebaseCartsDao')
-    },
     MONGO:{
         products : require('./products/MongoProductsDao'),
         carts : require('./carts/MongoCartsDao')

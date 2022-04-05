@@ -1,11 +1,13 @@
 const { Router } = require('express')
 const productsRoutes = require('./products/products.routes')
+const productsTestRoutes = require('./products-test/products-test.routes')
 const cartsRoutes = require('./carts/carts.routes')
 const errorHandler = require('./handlers/errorHandler')
 const notFoundHandler = require('./handlers/notFoundHandler')
 const router = Router()
 
 // Routes
+router.use('/productos-test', productsTestRoutes)
 router.use('/productos', productsRoutes)
 router.use('/carrito', cartsRoutes)
 

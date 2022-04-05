@@ -1,5 +1,3 @@
-const firebaseConfig = require('./db/firebase/firebase.config.json')
-
 module.exports = {
     PORT: process.env.PORT || 8080,
     PERS: process.env.PERS || 'MONGO',
@@ -7,9 +5,6 @@ module.exports = {
         MONGO:{
             uri: 'mongodb://localhost/ecommerce',
             options: null
-        },
-        FIREBASE: {
-          credential: firebaseConfig,
         }
     }
 }

@@ -1,28 +1,19 @@
 {
-  "name": "backend-js",
-  "version": "2.0.0",
-  "description": "Segunda entrega del proyecto final",
+  "name": "nuevodesafio",
+  "version": "1.0.0",
   "main": "index.js",
-  "engines": {
-    "node": "16.x"
-  },
   "scripts": {
     "start": "node index"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stick2yourmind/BackendJS.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/stick2yourmind/BackendJS/issues"
+  "description": "",
+  "devDependencies": {
+    "@faker-js/faker": "^6.1.2"
   },
-  "homepage": "https://github.com/stick2yourmind/BackendJS#readme",
   "dependencies": {
     "express": "^4.17.3",
-    "firebase-admin": "^10.0.2",
-    "mongoose": "^6.2.8"
+    "mongoose": "^6.2.10"
   }
 }
