@@ -5,9 +5,8 @@ const productsDao = new ProductsDao()
 const getAllProducts = async (req, res, next) => {
   try {
     const products = await productsDao.getAll()
-    res.json({ success: true, products })
-  }
-  catch(error) {
+    res.json({ products, success: true })
+  } catch (error) {
     next(error)
   }
 }
@@ -16,9 +15,8 @@ const getProductById = async (req, res, next) => {
   const { id } = req.params
   try {
     const product = await productsDao.getById(id)
-    res.json({ success: true, product })
-  }
-  catch(error) {
+    res.json({ product, success: true })
+  } catch (error) {
     next(error)
   }
 }
@@ -26,9 +24,8 @@ const getProductById = async (req, res, next) => {
 const createProduct = async (req, res, next) => {
   try {
     const newProduct = await productsDao.create(req.body)
-    res.json({ success: true, result: newProduct })
-  }
-  catch(error) {
+    res.json({ result: newProduct, success: true })
+  } catch (error) {
     next(error)
   }
 }
@@ -37,9 +34,8 @@ const updateProductById = async (req, res, next) => {
   const { params: { id }, body } = req
   try {
     const updatedProduct = await productsDao.updateById(id, body)
-    res.json({ success: true, result: updatedProduct })
-  }
-  catch(error) {
+    res.json({ result: updatedProduct, success: true })
+  } catch (error) {
     next(error)
   }
 }
@@ -48,17 +44,16 @@ const deleteProductById = async (req, res, next) => {
   const { id } = req.params
   try {
     const deletedProduct = await productsDao.deleteById(id)
-    res.json({ success: true, result: deletedProduct })
-  }
-  catch(error) {
+    res.json({ result: deletedProduct, success: true })
+  } catch (error) {
     next(error)
   }
 }
 
 module.exports = {
+  createProduct,
+  deleteProductById,
   getAllProducts,
   getProductById,
-  createProduct,
-  updateProductById,
-  deleteProductById,
+  updateProductById
 }

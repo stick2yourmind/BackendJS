@@ -4,9 +4,8 @@ const {
   getProductById,
   createProduct,
   updateProductById,
-  deleteProductById,
+  deleteProductById
 } = require('../../controllers/products.controllers')
-
 
 const router = Router()
 
@@ -19,6 +18,5 @@ router.post('/', createProduct)
 router.put('/:id', updateProductById)
 
 router.delete('/:id', deleteProductById)
-
 
 module.exports = router
