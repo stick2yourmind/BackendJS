@@ -34,6 +34,13 @@ class MongoContainer {
     return document
   }
 
+  async getByEmail (userEmail, populateColl = null, fields = null) {
+    let document = {}
+    if (populateColl) { document = await this.Model.findOne({ email: userEmail }, { __v: 0 }).populate(populateColl, fields) } else document = await this.Model.findOne({ email: userEmail }, { __v: 0 })
+    if (!document) { throw new Error(`-MongoDB- Document with user email: ${userEmail} could not be found!`) }
+    return document
+  }
+
   async create (payload) {
     const newDocument = new this.Model(payload)
     // If save is successful, the returned promise will fulfill with the document saved.

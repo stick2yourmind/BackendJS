@@ -1,15 +1,11 @@
 const { Router } = require('express')
-const productsRoutes = require('./products/products.routes')
-const usersRoutes = require('./users/users.routes')
-const productsTestRoutes = require('./productsTest/productsTest.routes')
 const errorHandler = require('./handlers/errorHandler')
 const notFoundHandler = require('./handlers/notFoundHandler')
+const pagesRoutes = require('./pages/pages.routes')
 const router = Router()
 
 // Routes
-router.use('/productos-test', productsTestRoutes)
-router.use('/productos', productsRoutes)
-router.use('/usuarios', usersRoutes)
+router.use('/', pagesRoutes)
 
 // Error handler
 router.use(errorHandler)

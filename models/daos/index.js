@@ -2,18 +2,18 @@ const { PERS } = require('../../config')
 
 const persistence = {
   MONGO: {
-    authors: require('./authors/MongoAuthorsDao'),
     messages: require('./messages/MongoMessagesDao'),
-    products: require('./products/MongoProductsDao')
+    products: require('./products/MongoProductsDao'),
+    users: require('./users/MongoUsersDao')
   }
 }
 
-const AuthorsDao = persistence[PERS].authors
+const UsersDao = persistence[PERS].users
 const CartsDao = persistence[PERS].carts
 const ProductsDao = persistence[PERS].products
 
 module.exports = {
-  AuthorsDao,
   CartsDao,
-  ProductsDao
+  ProductsDao,
+  UsersDao
 }
