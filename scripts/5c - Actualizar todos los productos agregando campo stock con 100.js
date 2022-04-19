@@ -1,1 +1,0 @@
-db.productos.updateMany( {},{$set: {stock: 100}} )

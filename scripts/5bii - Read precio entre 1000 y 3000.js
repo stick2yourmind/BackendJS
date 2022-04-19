@@ -1,1 +1,0 @@
-db.productos.find({price:{$gt:1000, $lt:3000}})
