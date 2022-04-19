@@ -3,16 +3,22 @@ const { UsersDao } = require('../models/daos/index')
 const usersDao = new UsersDao()
 
 const renderSign = async (req, res, next) => {
-  console.log('req.session?.user: ', req.session?.user)
   if (req.session?.user) {
     console.log('redirigido a productos')
     res.redirect('./productos')
   } else { res.render('loginRegister') }
 }
 
+const renderRegisterError = async (req, res, next) => {
+  res.render('registerError')
+}
+const renderLoginError = async (req, res, next) => {
+  res.render('LoginError')
+}
+
 const renderProducts = async (req, res, next) => {
   try {
-    if (req.session?.user) { res.render('products') } else { res.redirect('./login-register') }
+    if (req?.user) { res.render('products') } else { res.redirect('./login-register') }
   } catch (error) {
     next(error)
   }
@@ -65,6 +71,8 @@ const authUser = async (req, res, next) => {
 module.exports = {
   authUser,
   logoutUser,
+  renderLoginError,
   renderProducts,
+  renderRegisterError,
   renderSign
 }

@@ -6,6 +6,7 @@ const path = require('path')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')
 const app = express()
+const passport = require('./middlewares/passport')
 // const FileStore = require('session-file-store')(session)
 
 // Setting path where views will be
@@ -32,6 +33,8 @@ app.use(session({
   }),
   ttl: 600
 }))
+app.use(passport.initialize())
+app.use(passport.session())
 // Routes
 app.use('/api', apiRoutes)
 app.use('/', pageRoutes)

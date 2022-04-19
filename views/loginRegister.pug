@@ -15,17 +15,17 @@ header
         a(href='./login-register') Ingresar
 .section-container
   .form-container
-    form#form-sign-in(method='post')
+    form#form-sign-in(method='post'  action="/login")
       #signin-container
         h3 Ingresar
-        input.input-form(type='text' placeholder='Correo electronico' name='email')
+        input.input-form(type='text' placeholder='Correo electronico' name='username')
         input.input-form(type='text' placeholder='Contraseña' name='password')
         button.button(type='submit') Ingresar
         p#signup-action.action-form Registrarse
-    form#form-sign-up(method='post')
+    form#form-sign-up(method='post'  action="/register")
       #signup-container
         h3 Registrarse
-        input.input-form(type='text' placeholder='Correo electronico' name='email')
+        input.input-form(type='text' placeholder='Correo electronico' name='username')
         input.input-form(type='text' placeholder='Alias' name='alias')
         input.input-form(type='text' placeholder='Nombre' name='nombre')
         input.input-form(type='text' placeholder='apellido' name='apellido')
