@@ -5,6 +5,9 @@ const productsTestRoutes = require('./productsTest/productsTest.routes')
 const errorHandler = require('./handlers/errorHandler')
 const notFoundHandler = require('./handlers/notFoundHandler')
 const router = Router()
+const { renderRandoms } = require('../controllers/pages.controllers')
+
+router.get('/randoms', renderRandoms)
 
 // Routes
 router.use('/productos-test', productsTestRoutes)

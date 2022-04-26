@@ -1,6 +1,7 @@
 const yargs = require('yargs/yargs')
 const { UsersDao } = require('../models/daos/index')
 require('dotenv').config()
+const { fork } = require('child_process')
 
 const args = yargs(process.argv.slice(2))
   .alias({
@@ -10,6 +11,15 @@ const args = yargs(process.argv.slice(2))
   })
   .argv
 const usersDao = new UsersDao()
+
+const renderRandoms = async (req, res, next) => {
+  const queryQuant = req.query?.cant ?? 100e6
+  const blockingCount = fork('./controllers/blockProcess.js')
+  blockingCount.send(queryQuant)
+  blockingCount.on('message', (data) => {
+    res.send({ data })
+  })
+}
 
 const renderSign = async (req, res, next) => {
   if (req.session?.user) {
@@ -114,6 +124,7 @@ module.exports = {
   renderInfo,
   renderLoginError,
   renderProducts,
+  renderRandoms,
   renderRegisterError,
   renderSign
 }
