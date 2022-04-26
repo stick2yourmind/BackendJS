@@ -1,5 +1,14 @@
+const yargs = require('yargs/yargs')
 const { UsersDao } = require('../models/daos/index')
+require('dotenv').config()
 
+const args = yargs(process.argv.slice(2))
+  .alias({
+    o: 'port',
+    p: 'mongoPassword',
+    u: 'mongoUser'
+  })
+  .argv
 const usersDao = new UsersDao()
 
 const renderSign = async (req, res, next) => {
@@ -11,6 +20,37 @@ const renderSign = async (req, res, next) => {
 
 const renderRegisterError = async (req, res, next) => {
   res.render('registerError')
+}
+const renderInfo = async (req, res, next) => {
+  const info = [{
+    description: String.toString(args),
+    title: 'Argumentos de entrada'
+  },
+  {
+    description: process.platform,
+    title: 'Nombre de la plataforma (sistema operativo)'
+  },
+  {
+    description: process.version,
+    title: 'Versión de node.js'
+  },
+  {
+    description: process.memoryUsage.rss(),
+    title: 'Memoria total reservada (rss)'
+  },
+  {
+    description: process.execPath,
+    title: 'Path de ejecución'
+  },
+  {
+    description: process.pid,
+    title: 'PID'
+  },
+  {
+    description: process.cwd(),
+    title: 'Carpeta contenedora'
+  }]
+  res.render('info', { info: info })
 }
 const renderLoginError = async (req, res, next) => {
   res.render('LoginError')
@@ -71,6 +111,7 @@ const authUser = async (req, res, next) => {
 module.exports = {
   authUser,
   logoutUser,
+  renderInfo,
   renderLoginError,
   renderProducts,
   renderRegisterError,

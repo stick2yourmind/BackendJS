@@ -1,5 +1,5 @@
 const express = require('express')
-const { PORT } = require('./config')
+const { PORT, PASSPORT_SECRET, DB_CONFIG } = require('./config')
 const apiRoutes = require('./routers/index')
 const pageRoutes = require('./routers/pages')
 const path = require('path')
@@ -27,9 +27,9 @@ app.use(session({
   name: 'ch-session',
   resave: false,
   saveUninitialized: false,
-  secret: 'palabra-secreta',
+  secret: PASSPORT_SECRET,
   store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://anker:tiXCScG6jgbKTXoP@coderhouse-ecommerce.mxktd.mongodb.net/sesiones?retryWrites=true&w=majority'
+    mongoUrl: DB_CONFIG.MONGO_ATLAS.uri
   }),
   ttl: 600
 }))
