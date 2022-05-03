@@ -4,6 +4,7 @@ require('dotenv').config()
 const { fork } = require('child_process')
 const { MODE, RunningMode } = require('../config')
 const blockingProcess = require('./blockProcess')
+const os = require('os')
 
 const args = yargs(process.argv.slice(2))
   .alias({
@@ -63,6 +64,10 @@ const renderInfo = async (req, res, next) => {
   {
     description: process.cwd(),
     title: 'Carpeta contenedora'
+  },
+  {
+    description: os.cpus().length,
+    title: 'Cantidad de procesadores'
   }]
   res.render('info', { info: info })
 }

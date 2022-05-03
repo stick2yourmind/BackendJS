@@ -21,9 +21,11 @@ const args = yargs(process.argv.slice(2))
   })
   .default({
     mode: RunningMode.Cluster,
-    port: 8090
+    port: 8080
   })
   .argv
+
+console.log('args: ', args)
 
 module.exports = {
   DB_CONFIG: {
