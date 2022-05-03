@@ -2,6 +2,8 @@ const yargs = require('yargs/yargs')
 const { UsersDao } = require('../models/daos/index')
 require('dotenv').config()
 const { fork } = require('child_process')
+const { MODE, RunningMode } = require('../config')
+const blockingProcess = require('./blockProcess')
 
 const args = yargs(process.argv.slice(2))
   .alias({
@@ -14,11 +16,13 @@ const usersDao = new UsersDao()
 
 const renderRandoms = async (req, res, next) => {
   const queryQuant = req.query?.cant ?? 100e6
-  const blockingCount = fork('./controllers/blockProcess.js')
-  blockingCount.send(queryQuant)
-  blockingCount.on('message', (data) => {
-    res.send({ data })
-  })
+  if (MODE === RunningMode.Fork) {
+    const blockingCount = fork('./controllers/blockProcess.js')
+    blockingCount.send(queryQuant)
+    blockingCount.on('message', (data) => {
+      res.send({ data })
+    })
+  } else { res.send({ data: blockingProcess(queryQuant) }) }
 }
 
 const renderSign = async (req, res, next) => {

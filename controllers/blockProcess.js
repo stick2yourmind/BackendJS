@@ -17,3 +17,5 @@ process.on('message', (data) => {
   const count = blockingProcess(+data)
   process.send(count)
 })
+
+module.exports = blockingProcess

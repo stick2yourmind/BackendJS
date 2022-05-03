@@ -7,7 +7,7 @@ const args = yargs(process.argv.slice(2))
     u: 'mongoUser'
   })
   .default({
-    port: 8080
+    port: 8090
   })
   .argv
 
