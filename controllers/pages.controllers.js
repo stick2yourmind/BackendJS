@@ -71,6 +71,42 @@ const renderInfo = async (req, res, next) => {
   }]
   res.render('info', { info: info })
 }
+
+const renderInfoZip = async (req, res, next) => {
+  const info = [{
+    description: String.toString(args),
+    title: 'Argumentos de entrada'
+  },
+  {
+    description: process.platform,
+    title: 'Nombre de la plataforma (sistema operativo)'
+  },
+  {
+    description: process.version,
+    title: 'Versión de node.js'
+  },
+  {
+    description: process.memoryUsage.rss(),
+    title: 'Memoria total reservada (rss)'
+  },
+  {
+    description: process.execPath,
+    title: 'Path de ejecución'
+  },
+  {
+    description: process.pid,
+    title: 'PID'
+  },
+  {
+    description: process.cwd(),
+    title: 'Carpeta contenedora'
+  },
+  {
+    description: os.cpus().length,
+    title: 'Cantidad de procesadores'
+  }]
+  res.render('info', { info: info })
+}
 const renderLoginError = async (req, res, next) => {
   res.render('LoginError')
 }
@@ -131,6 +167,7 @@ module.exports = {
   authUser,
   logoutUser,
   renderInfo,
+  renderInfoZip,
   renderLoginError,
   renderProducts,
   renderRandoms,

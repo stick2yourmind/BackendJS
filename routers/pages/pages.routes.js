@@ -6,9 +6,11 @@ const {
   logoutUser,
   renderLoginError,
   renderInfo,
+  renderInfoZip,
   renderRegisterError
 } = require('../../controllers/pages.controllers')
 const passport = require('../../middlewares/passport')
+const compression = require('compression')
 
 const router = Router()
 
@@ -16,6 +18,7 @@ router.get('/', renderProducts)
 
 router.get('/productos', renderProducts)
 router.get('/info', renderInfo)
+router.get('/infozip', compression(), renderInfoZip)
 
 router.get('/login-register', renderSign)
 router.get('/loginError', renderLoginError)

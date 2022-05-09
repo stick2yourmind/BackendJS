@@ -9,6 +9,7 @@ const app = express()
 const passport = require('./middlewares/passport')
 const cluster = require('cluster')
 const numCPUs = require('os').cpus().length
+const { infoLogger } = require('./utils/logger/config')
 const chalk = require('chalk')
 const log = console.log
 
@@ -50,6 +51,10 @@ if (!cluster.isMaster || (MODE === RunningMode.Fork)) {
   app.use(passport.initialize())
   app.use(passport.session())
   // Routes
+  app.use('/', (req, res, next) => {
+    infoLogger.info(`Ruta: ${req.baseUrl}${req.path} \nMétodo: ${req.method}`)
+    return next()
+  })
   app.use('/api', apiRoutes)
   app.use('/', pageRoutes)
   app.listen(PORT, () => {
