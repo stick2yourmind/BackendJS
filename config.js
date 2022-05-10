@@ -20,7 +20,7 @@ const args = yargs(process.argv.slice(2))
     u: 'mongoUser'
   })
   .default({
-    mode: RunningMode.Cluster,
+    mode: RunningMode.Fork,
     port: 8080
   })
   .argv

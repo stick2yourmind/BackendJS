@@ -36,7 +36,7 @@ const renderSign = async (req, res, next) => {
 const renderRegisterError = async (req, res, next) => {
   res.render('registerError')
 }
-const renderInfo = async (req, res, next) => {
+const renderInfo = (req, res, next) => {
   const info = [{
     description: String.toString(args),
     title: 'Argumentos de entrada'
@@ -69,6 +69,7 @@ const renderInfo = async (req, res, next) => {
     description: os.cpus().length,
     title: 'Cantidad de procesadores'
   }]
+  // console.log(info)
   res.render('info', { info: info })
 }
 
