@@ -10,8 +10,8 @@ class MongoContainer {
   async connect () {
     try {
       !DB_CONFIG.MONGO.options
-        ? mongoose.connect(DB_CONFIG.MONGO.uri)
-        : mongoose.connect(DB_CONFIG.MONGO.uri, DB_CONFIG.MONGO.options)
+        ? mongoose.connect(DB_CONFIG.MONGO_ATLAS.uri)
+        : mongoose.connect(DB_CONFIG.MONGO_ATLAS.uri, DB_CONFIG.MONGO_ATLAS.options)
       mongoose.connection.on('connected', () => console.log('Mongoose connected to MongoDB server!'))
       mongoose.connection.on('error', () => console.log('Mongoose connection could not been established'))
       mongoose.connection.on('disconnected', () => console.log('Mongoose default connection: is not connected'))

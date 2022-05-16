@@ -40,7 +40,7 @@ async (req, username, password, done) => {
     }
     const userSaved = await User.create(newUser)
     console.log('Registration succesfull!')
-    return (null, userSaved)
+    return done(null, userSaved)
   } catch (error) {
     console.log('Error al registrarse', error)
     return done(null, false)
