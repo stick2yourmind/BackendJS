@@ -1,5 +1,5 @@
 const express = require('express')
-const { PORT, PASSPORT_SECRET, DB_CONFIG, MODE, RunningMode } = require('./config')
+const { PASSPORT_SECRET, DB_CONFIG, MODE, RunningMode } = require('./config')
 const apiRoutes = require('./routers/index')
 const pageRoutes = require('./routers/pages')
 const path = require('path')
@@ -57,7 +57,7 @@ if (!cluster.isMaster || (MODE === RunningMode.Fork)) {
   })
   app.use('/api', apiRoutes)
   app.use('/', pageRoutes)
-  app.listen(PORT, () => {
-    console.log(`Server running on port: ${PORT}`)
+  app.listen(process.env.PORT, '0.0.0.0', () => {
+    console.log(`Server running on port: ${process.env.PORT}`)
   })
 }

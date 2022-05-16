@@ -41,6 +41,6 @@ module.exports = {
   MODE: args.mode,
   PASSPORT_SECRET: process.env.PASSPORT_SECRET || 'palabra-secreta',
   PERS: process.env.PERS || 'MONGO',
-  PORT: args.port || process.env.PORT || 8080,
+  PORT: args.port || process.env.PORT,
   RunningMode
 }
