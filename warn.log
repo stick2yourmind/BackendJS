@@ -45,3 +45,5 @@
 [2022-05-26T04:21:00.238] [WARN] warn - Ruta /icons/delete del método GET no implementada
 [2022-05-26T04:21:08.312] [WARN] warn - Ruta /public del método GET no implementada
 [2022-05-26T04:21:25.494] [WARN] warn - Ruta /icons/delete del método GET no implementada
+[2022-05-26T12:14:58.821] [WARN] warn - Ruta /favicon.ico del método GET no implementada
+[2022-05-26T12:15:06.907] [WARN] warn - Ruta /favicon.ico del método GET no implementada

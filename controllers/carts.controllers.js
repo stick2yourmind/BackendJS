@@ -31,7 +31,6 @@ const getUserCarts = async (req, res, next) => {
  * @returns {Object} new cart if success or JSON error if not.
  * Example of JSON received, at server:
  * {
- *   "userId": "628c7299b914f61a06299ca7"
  * }
  */
 const createCart = async (req, res, next) => {
@@ -74,7 +73,6 @@ const getCartById = async (req, res, next) => {
  * @returns {Object} Updated cart if success or JSON error if not.
  * Example of JSON received, at server:
  * {
- *   "prodId": "628c7299b914f61a06299ca7",
  *   "quantity": "8"
  * }
  */
@@ -82,6 +80,13 @@ const addProductToCart = async (req, res, next) => {
   // verify <userId> with "const userId = req.session.passport.user"
   // if its own the cart
   const { params: { cartId }, body: { prodId, quantity } } = req
+  console.log('cartId')
+  console.log(cartId)
+  console.log('prodId')
+  console.log(prodId)
+  console.log('quantity')
+  console.log('req.body')
+  console.log(req.body)
   const product = await productsDao.getById(prodId)
   const price = product.precio
   const item = { _id: product._id, price, quantity: +quantity }

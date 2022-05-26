@@ -1,7 +1,9 @@
 const cartParent = document.getElementById('cart-order-container')
 
 const endpoint = {
-  getProductById: (prodId) => `http://localhost:8080/api/productos/${prodId}`
+  getProductById: (prodId) => `http://localhost:8080/api/productos/${prodId}`,
+  postAddProductToCart: (cartId) => `http://localhost:8080/api/order-cart/${cartId}/productos`,
+  postCreateCart: () => 'http://localhost:8080/api/order-cart'
 }
 const CART_LS = 'cart'
 

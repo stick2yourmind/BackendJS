@@ -1,87 +1,91 @@
-const subtract = document.getElementById('subtract-button')
-const add = document.getElementById('add-button')
-const quantity = document.getElementById('quantity')
-const buyForm = document.getElementById('buy-form')
-const productId = document.getElementById('product-id')
-const productStock = document.getElementById('product-stock')
-const DEFAULT_QUANTITY = 1
-const CART_LS = 'cart'
+const buyerParent = document.getElementById('cart-order-container')
+const buyerContainer = document.createElement('form')
+const submitButton = document.createElement('button')
+const cartIdInfo = document.createElement('p')
 
-const getCart = () => {
-  return (JSON.parse(localStorage.getItem(CART_LS)) || [])
-}
-/* eslint-disable */
-let cart = getCart()
+const CART_LS_POST = 'cart'
 
-/* eslint-enable */
-
-// cart = [{
-//   _id: '1212-sdas2-asd',
-//   quantity: 3
-// }, {
-//   _id: 'asdads-awdsad-asdsasd',
-//   quantity: 10
-// }]
-
-const subtractQuantity = () => {
-  console.log('subtractQuantity clicked')
-  quantity.value = (!isNaN(quantity.value) && Number(quantity.value) > 1) ? (Number(quantity.value) - 1) : DEFAULT_QUANTITY
-}
-const addQuantity = () => {
-  console.log('addQuantity clicked')
-  quantity.value = (!isNaN(quantity.value) && Number(quantity.value))
-    ? Number(quantity.value) < productStock.value
-      ? Number(quantity.value) + 1
-      : productStock.value
-    : DEFAULT_QUANTITY
+const endpointPost = {
+  postAddProductToCart: (cartId) => `http://localhost:8080/api/order-cart/${cartId}/productos`,
+  postCreateCart: () => 'http://localhost:8080/api/order-cart'
 }
 
-const addItemLocalStorage = (productId, quantity) => {
-  cart = getCart()
-  const newCart = [...cart, { _id: productId, quantity }]
-  localStorage.setItem(CART_LS, JSON.stringify(newCart))
+const checkoutCartNode = () => {
+  // Class
+  buyerContainer.classList.add('cart-buy-checkout')
+  // Fullfillment
+  submitButton.innerHTML = 'Finalizar compra'
+  submitButton.type = 'submit'
+  //
+  buyerContainer.appendChild(submitButton)
+  buyerContainer.appendChild(cartIdInfo)
+
+  const lastSibling = buyerParent.lastElementChild
+  lastSibling.insertAdjacentElement('afterend', buyerContainer)
+}
+const renderCheckoutCartNode = () => {
+  checkoutCartNode()
 }
 
-const removeItemLocalStorage = (productId) => {
-  cart = getCart()
-  const newCart = cart.filter(item => item._id !== productId)
-  localStorage.setItem(CART_LS, JSON.stringify(newCart))
+const getCartFromLSPost = () => {
+  return (JSON.parse(localStorage.getItem(CART_LS_POST)) || [])
 }
 
-const updateItemLocalStorage = (productId, quantity) => {
-  cart = getCart()
-  const newCart = cart.map(item =>
-    item._id === productId
-      ? { _id: item._id, quantity }
-      : item)
-  localStorage.setItem(CART_LS, JSON.stringify(newCart))
+// const getData = async (endpointPost) => {
+//   let data = {}
+//   try {
+//     const dataFetched = await fetch(endpointPost)
+//     data = await dataFetched.json()
+//   } catch (e) {
+//     data = { ...e, error: true }
+//   }
+//   return data
+// }
+
+const postData = async (endpointPost, data) => {
+  console.log('endpointPost')
+  console.log(endpointPost)
+  console.log('data')
+  console.log(data)
+  try {
+    const responseFetched = await fetch(endpointPost, {
+      body: JSON.stringify(data),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      },
+      method: 'POST'
+    })
+    data = await responseFetched.json()
+  } catch (e) {
+    data = { ...e, error: true }
+  }
+  return data
 }
 
-const addItemToCart = (e) => {
-  console.log('item added to cart')
-  console.log(e)
+const addProductsToDB = async () => {
+  const cartFromLS = getCartFromLSPost()
+  // Creating a cart
+  const newCartDataFetched = await postData(endpointPost.postCreateCart())
+  const newCart = await newCartDataFetched.result._id
+  console.log('newCart id:')
+  console.log(newCart)
+  // Adding items to cart
+  cartFromLS.map(async product => {
+    const dataProduct = { prodId: product._id, quantity: product.quantity }
+    const responseFetched = await postData(endpointPost.postAddProductToCart(newCart), dataProduct)
+    console.log('responseFetched')
+    console.log(responseFetched)
+  })
+  return newCart
+}
+
+setTimeout(renderCheckoutCartNode, 4000)
+const submitCheckout = async (e) => {
   e.preventDefault()
   e.stopPropagation()
-  const id = productId.value
-  const quantityOrdered = quantity.value
-  const wasItemAdded = cart.some(item => item._id === id)
-  !wasItemAdded
-    ? addItemLocalStorage(id, quantityOrdered)
-    : updateItemLocalStorage(id, quantityOrdered)
+  const cartId = await addProductsToDB()
+  cartIdInfo.innerHTML = `Código de identificación de su compra: ${cartId}`
+  localStorage.clear()
 }
 
-let prevQuantity = cart?.find(item => item?._id === productId.value)?.quantity
-prevQuantity = Number(prevQuantity) || DEFAULT_QUANTITY
-if (prevQuantity < productStock.value) { quantity.value = prevQuantity } else {
-  quantity.value = DEFAULT_QUANTITY
-  removeItemLocalStorage(productId.value)
-}
-
-subtract.addEventListener('click', subtractQuantity)
-add.addEventListener('click', addQuantity)
-buyForm.addEventListener('submit', addItemToCart)
-
-// Set an array of JSON to localStorage
-// let localStorage.setItem("cart", JSON.stringify(cart))
-// Get array of JSON from localStorage
-// let storedNames = JSON.parse(localStorage.getItem("names"))
+buyerContainer.addEventListener('submit', submitCheckout)

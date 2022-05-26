@@ -416,3 +416,20 @@ nav ul{
 .cart-order-item-delete img{
   width: 1rem;
 }
+.cart-buy-checkout{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.cart-buy-checkout button{
+  height: 2rem;
+  color: rgb(132, 94, 194);
+  font-size: 1rem;
+  font-weight: 700;
+  justify-self: normal;
+  width: 50%;
+}
+.cart-buy-checkout p{
+  color: aliceblue;
+}
