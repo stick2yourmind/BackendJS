@@ -362,3 +362,57 @@ nav ul{
   padding: 0.2rem;
   width: 100%;
 }
+
+/***********  Cart page  ***********/
+.cart-order-item{  
+  border-radius: 1rem;
+  background: aliceblue;
+  display: flex;
+  margin: 1rem;
+}
+.cart-order-item-img{
+  height: 14rem;
+  width: 14rem;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+}
+.cart-order-item-info{
+  color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 26rem;
+}
+.cart-order-item-info-title{
+  color: black;
+  overflow: hidden;
+  display: -webkit-box; /* needed to set number of lines to show */
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-clamp: 1; 
+  -webkit-box-orient: vertical;
+}
+.cart-order-item-info-price{
+  color: black;
+}
+.cart-order-item-info-quantity{
+  color: black;
+}
+.cart-order-item-info-subtotal{
+  color: black;
+}
+.cart-order-item-delete{
+  color: black;  
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin: 1rem;
+}
+.cart-order-item-delete button{
+  background: rgba(0, 0, 0, 0) none repeat scroll 0% 0%;
+  border: medium none;
+  margin: 1rem;
+}
+.cart-order-item-delete img{
+  width: 1rem;
+}

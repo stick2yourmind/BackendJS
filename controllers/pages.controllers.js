@@ -15,6 +15,14 @@ const args = yargs(process.argv.slice(2))
   })
   .argv
 
+const renderCart = async (req, res, next) => {
+  try {
+    if (req?.user) { res.render('cart') } else { res.redirect('./login-register') }
+  } catch (error) {
+    next(error)
+  }
+}
+
 const renderSign = async (req, res, next) => {
   if (req.session?.user) {
     console.log('redirigido a productos')
@@ -23,6 +31,8 @@ const renderSign = async (req, res, next) => {
 }
 
 const renderProfile = async (req, res, next) => {
+  console.log('req.session.passport.user')
+  console.log(req.session.passport.user)
   const userInfo = await user.getById(req.session.passport.user).then(info => info)
   const userInfoToRender = {
     address: userInfo.address,
@@ -148,6 +158,7 @@ const logoutUser = async (req, res) => {
 
 module.exports = {
   logoutUser,
+  renderCart,
   renderInfo,
   renderInfoZip,
   renderLoginError,

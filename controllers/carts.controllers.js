@@ -2,7 +2,26 @@ const { CartsDao, ProductsDao } = require('../models/daos/index')
 
 const cartsDao = new CartsDao()
 const productsDao = new ProductsDao()
-
+/**
+ * Get all carts from a user, server receives an empty JSON.
+ *
+ * @param {Object} req - To get <user> attribute.
+ * @param {Object} res - To set a response.
+ * @param {Function} next - Used for error handling.
+ * @returns {Object} attribute result contains all user's carts.
+ * Example of JSON received, at server:
+ * {
+ * }
+ */
+const getUserCarts = async (req, res, next) => {
+  const userId = req.session.passport.user
+  try {
+    const carts = await cartsDao.getBy('user', userId)
+    res.json({ result: carts, success: true })
+  } catch (error) {
+    next(error)
+  }
+}
 /**
  * Creates a new cart for a user
  *
@@ -16,9 +35,9 @@ const productsDao = new ProductsDao()
  * }
  */
 const createCart = async (req, res, next) => {
-  const { userId } = req.body
+  const userId = req.session.passport.user
   try {
-    const newCart = await cartsDao.create({ userId })
+    const newCart = await cartsDao.create({ user: userId })
     res.json({ result: newCart, success: true })
   } catch (error) {
     next(error)
@@ -60,8 +79,9 @@ const getCartById = async (req, res, next) => {
  * }
  */
 const addProductToCart = async (req, res, next) => {
+  // verify <userId> with "const userId = req.session.passport.user"
+  // if its own the cart
   const { params: { cartId }, body: { prodId, quantity } } = req
-  // const product = await { ...productsDao.getById(prodId), quantity }
   const product = await productsDao.getById(prodId)
   const price = product.precio
   const item = { _id: product._id, price, quantity: +quantity }
@@ -92,5 +112,6 @@ module.exports = {
   createCart,
   deleteCartById,
   deleteProductFromCart,
-  getCartById
+  getCartById,
+  getUserCarts
 }

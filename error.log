@@ -250,3 +250,14 @@ input is a self closing element: <input/> but contains nested content.
   '  }\n' +
   ']" (type string) at path "products.0"
 [2022-05-25T23:15:40.848] [ERROR] error - Cannot read properties of undefined (reading 'price')
+[2022-05-25T23:52:06.255] [ERROR] error - -MongoDB- Document with id: 628ee0e0f8d8f9ca2e533028 could not been found!
+[2022-05-25T23:54:28.455] [ERROR] error - -MongoDB- Document with id: 628eeb60c1080048f5b1a8df could not been found!
+[2022-05-26T00:14:41.639] [ERROR] error - carts validation failed: user: Cast to ObjectId failed for value "628c7299b914f61a06299ca7falso" (type string) at path "user"
+[2022-05-26T00:46:24.843] [ERROR] error - Cannot read properties of undefined (reading 'user')
+[2022-05-26T00:47:07.859] [ERROR] error - Cannot read properties of undefined (reading 'user')
+[2022-05-26T00:49:30.066] [ERROR] error - Cannot read properties of undefined (reading 'user')
+[2022-05-26T00:49:41.607] [ERROR] error - Cannot read properties of undefined (reading 'user')
+[2022-05-26T00:50:28.441] [ERROR] error - Cannot read properties of undefined (reading 'user')
+[2022-05-26T00:51:07.090] [ERROR] error - Cannot read properties of undefined (reading 'user')
+[2022-05-26T00:51:29.989] [ERROR] error - Cannot read properties of undefined (reading 'user')
+[2022-05-26T03:27:35.560] [ERROR] error - Failed to lookup view "cartPage" in views directory "./views"

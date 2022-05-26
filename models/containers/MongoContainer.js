@@ -41,6 +41,13 @@ class MongoContainer {
     return document
   }
 
+  async getBy (key, value) {
+    let document = {}
+    document = await this.Model.find({ [key]: value }, { __v: 0 })
+    if (!document) { throw new Error(`-MongoDB- (getBy) Document with key: ${key} and value: ${value} could not be found!`) }
+    return document
+  }
+
   async create (payload) {
     const newDocument = new this.Model(payload)
     // If save is successful, the returned promise will fulfill with the document saved.
@@ -75,11 +82,27 @@ class MongoContainer {
  * @param {*} arr
  * @return {*}
  * @memberof MongoContainer
- * Example at mongoDB:
+ * Example at mongoDB instruction:
  * db.carts.updateOne(
  * {_id:ObjectId("628ee0e0f8d8f9ca2e533028")},
  * { $push: { products:
  *    {_id: ObjectId("628c3cf921a40c383e3be9b4"), price: 8, quantity: 10} } } )
+ *
+ *
+ * Example of updated document after instruction, with empty array before it:
+ * {
+    "_id" : ObjectId("628ee0e0f8d8f9ca2e533028"),
+    "products" : [
+        {
+            "_id" : ObjectId("628c3cf921a40c383e3be9b4"),
+            "price" : 11049.2,
+            "quantity" : 80
+        }
+    ],
+    "createdAt" : ISODate("2022-05-26T02:07:28.965Z"),
+    "updatedAt" : ISODate("2022-05-26T02:55:58.737Z"),
+    "__v" : 0
+}
  */
   async addItemToArray (cartId, item, arr) {
     console.log('item at addItemToArray:')

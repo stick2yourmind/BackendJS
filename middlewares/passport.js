@@ -13,6 +13,8 @@ const isValidPassword = (user, password) => bcrypt.compareSync(password, user.pa
 passport.use('login', new LocalStrategy(async (username, password, done) => {
   try {
     const user = await User.getByEmail(username)
+    console.log('user (passport.use(login):')
+    console.log(user)
     console.log(`(user.password, password): (${user.password}, ${password})`)
     if (!isValidPassword(user, password)) {
       console.log('Invalid user or password')

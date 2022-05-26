@@ -36,6 +36,7 @@ if (!cluster.isMaster || (MODE === RunningMode.Fork)) {
   app.use(session({
     cookie: {
       hostOnly: true,
+      httpOnly: true,
       maxAge: 6000000,
       signed: true
     },

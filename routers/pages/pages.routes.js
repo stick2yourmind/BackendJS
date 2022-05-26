@@ -3,6 +3,7 @@ const {
   renderProducts,
   renderProductDetails,
   renderSign,
+  renderCart,
   logoutUser,
   renderLoginError,
   renderInfo,
@@ -29,6 +30,7 @@ const router = Router()
 router.get('/', renderProducts)
 
 router.get('/productos', renderProducts)
+router.get('/cart', renderCart)
 router.get('/productos/:productId', renderProductDetails)
 router.get('/info', renderInfo)
 router.get('/profile', renderProfile)

@@ -4,10 +4,14 @@ const {
   deleteCartById,
   getCartById,
   addProductToCart,
-  deleteProductFromCart
+  deleteProductFromCart,
+  getUserCarts
 } = require('../../controllers/carts.controllers')
 
 const router = Router()
+
+// Routes at <HOST>:<PORT>/api/order-cart
+router.get('/', getUserCarts)
 
 router.post('/', createCart)
 
