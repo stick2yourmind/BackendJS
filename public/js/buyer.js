@@ -6,9 +6,9 @@ const cartIdInfo = document.createElement('p')
 const CART_LS_POST = 'cart'
 
 const endpointPost = {
-  postAddProductToCart: (cartId) => `http://localhost:8080/api/order-cart/${cartId}/productos`,
-  postCloseCart: (cartId) => `http://localhost:8080/api/order-cart/${cartId}`,
-  postCreateCart: () => 'http://localhost:8080/api/order-cart'
+  postAddProductToCart: (cartId) => `${location.protocol + '//' + location.host}/api/order-cart/${cartId}/productos`,
+  postCloseCart: (cartId) => `${location.protocol + '//' + location.host}/api/order-cart/${cartId}`,
+  postCreateCart: () => `${location.protocol + '//' + location.host}/api/order-cart`
 }
 
 const checkoutCartNode = () => {
