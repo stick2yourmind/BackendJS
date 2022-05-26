@@ -261,3 +261,12 @@ input is a self closing element: <input/> but contains nested content.
 [2022-05-26T00:51:07.090] [ERROR] error - Cannot read properties of undefined (reading 'user')
 [2022-05-26T00:51:29.989] [ERROR] error - Cannot read properties of undefined (reading 'user')
 [2022-05-26T03:27:35.560] [ERROR] error - Failed to lookup view "cartPage" in views directory "./views"
+[2022-05-26T15:36:31.814] [ERROR] error - ENOENT: no such file or directory, open 'C:\Users\sarav\Downloads\BackendCH\BackendJSmail.html'
+[2022-05-26T16:02:44.329] [ERROR] error - ENOENT: no such file or directory, open '../views/newCheckout.pug'
+[2022-05-26T16:05:44.898] [ERROR] error - ENOENT: no such file or directory, open 'newCheckout.pug'
+[2022-05-26T16:30:33.638] [ERROR] error - cart.map is not a function
+[2022-05-26T16:31:06.407] [ERROR] error - cart.map is not a function
+[2022-05-26T16:32:42.664] [ERROR] error - cart.map is not a function
+[2022-05-26T16:34:53.377] [ERROR] error - cart.map is not a function
+[2022-05-26T16:35:52.097] [ERROR] error - cart.map is not a function
+[2022-05-26T16:54:28.941] [ERROR] error - products.then is not a function

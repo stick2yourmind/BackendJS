@@ -1,6 +1,25 @@
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
+const nodemailer = require('nodemailer')
+const { SERVICE_EMAIL } = require('../config')
+const pug = require('pug')
+
+const transporter = nodemailer.createTransport({
+  auth: {
+    pass: SERVICE_EMAIL.pass,
+    user: SERVICE_EMAIL.user
+  },
+  port: SERVICE_EMAIL.port,
+  service: SERVICE_EMAIL.service
+})
+
+const mailOptions = (to, subject, html) => ({
+  from: 'Node JS Server',
+  html,
+  subject,
+  to
+})
 
 const { UsersDao } = require('../models/daos/index')
 
@@ -45,6 +64,10 @@ async (req, username, password, done) => {
     console.log('newUser:\n', newUser)
     const userSaved = await User.create(newUser)
     console.log('Registration succesfull!')
+    const subject = `Nuevo registro de ${newUser.name} - ${newUser.email} `
+    const html = pug.renderFile('newUserEmailNotification.pug', {})
+    transporter.sendMail(mailOptions(SERVICE_EMAIL.user, subject, html))
+    console.log('Email notification sent!!')
     return done(null, userSaved)
   } catch (error) {
     console.log('Error al registrarse', error)

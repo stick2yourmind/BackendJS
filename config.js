@@ -43,5 +43,11 @@ module.exports = {
   PASSPORT_SECRET: process.env.PASSPORT_SECRET || 'palabra-secreta',
   PERS: process.env.PERS || 'MONGO',
   PORT: args.port || process.env.PORT,
-  RunningMode
+  RunningMode,
+  SERVICE_EMAIL: {
+    pass: process.env.SELLER_EMAIL_PASS || 'bnjgnpzrraioqlft',
+    port: 465,
+    service: 'gmail',
+    user: process.env.SELLER_EMAIL || 'cuentaalpedo2022@gmail.com'
+  }
 }

@@ -7,6 +7,7 @@ const CART_LS_POST = 'cart'
 
 const endpointPost = {
   postAddProductToCart: (cartId) => `http://localhost:8080/api/order-cart/${cartId}/productos`,
+  postCloseCart: (cartId) => `http://localhost:8080/api/order-cart/${cartId}`,
   postCreateCart: () => 'http://localhost:8080/api/order-cart'
 }
 
@@ -76,6 +77,7 @@ const addProductsToDB = async () => {
     console.log('responseFetched')
     console.log(responseFetched)
   })
+  await postData(endpointPost.postCloseCart(newCart), {})
   return newCart
 }
 
