@@ -1,18 +1,15 @@
 const { Router } = require('express')
 const productsRoutes = require('./products/products.routes')
 const usersRoutes = require('./users/users.routes')
-const productsTestRoutes = require('./productsTest/productsTest.routes')
+const cartsRoutes = require('./carts/cart.routes')
 const errorHandler = require('./handlers/errorHandler')
 const notFoundHandler = require('./handlers/notFoundHandler')
 const router = Router()
-const { renderRandoms } = require('../controllers/pages.controllers')
 
-router.get('/randoms', renderRandoms)
-
-// Routes
-router.use('/productos-test', productsTestRoutes)
+// Routes ./api
 router.use('/productos', productsRoutes)
 router.use('/usuarios', usersRoutes)
+router.use('/order-cart', cartsRoutes)
 
 // Error handler
 router.use(errorHandler)

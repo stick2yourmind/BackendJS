@@ -38,6 +38,7 @@ module.exports = {
       uri: process.env.MONGO_ATLAS_URI || 'mongodb+srv://anker:tiXCScG6jgbKTXoP@coderhouse-ecommerce.mxktd.mongodb.net/sesiones?retryWrites=true&w=majority'
     }
   },
+  HOST: process.env.HOST || 'http://localhost',
   MODE: args.mode,
   PASSPORT_SECRET: process.env.PASSPORT_SECRET || 'palabra-secreta',
   PERS: process.env.PERS || 'MONGO',

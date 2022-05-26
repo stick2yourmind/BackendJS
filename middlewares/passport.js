@@ -32,12 +32,15 @@ passport.use('register', new LocalStrategy({
 async (req, username, password, done) => {
   try {
     const newUser = {
-      alias: req.body.alias,
-      apellido: req.body.apellido,
+      address: req.body.address,
+      age: req.body.age,
+      avatar: req.file.path,
       email: username,
-      nombre: req.body.nombre,
-      password: createHash(password)
+      name: req.body.fullName,
+      password: createHash(password),
+      phone: req.body.phone
     }
+    console.log('newUser:\n', newUser)
     const userSaved = await User.create(newUser)
     console.log('Registration succesfull!')
     return done(null, userSaved)

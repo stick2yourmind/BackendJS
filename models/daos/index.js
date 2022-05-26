@@ -2,6 +2,7 @@ const { PERS } = require('../../config')
 
 const persistence = {
   MONGO: {
+    carts: require('./carts/MongoCartsDao'),
     messages: require('./messages/MongoMessagesDao'),
     products: require('./products/MongoProductsDao'),
     users: require('./users/MongoUsersDao')

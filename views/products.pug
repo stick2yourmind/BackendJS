@@ -12,81 +12,21 @@ header
       li.page-section
         a(href='./') Productos
       li.page-section
+        a(href='/profile') Mi perfil
+      li.page-section
+        a(href='/cart') Carrito
+      li.page-section
         a(href='./logout') Salir
 .section-container
   .products-container.grid
-    .product
-      a.product-link(href='./productos.html')
-      .product-content
-        img.product-img(src='https://http2.mlstatic.com/D_NQ_NP_2X_600099-MLA40939775511_022020-F.webp' alt='Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca')
-        p.product-price $ 449.99
-        p.product-title
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-    .product
-      a.product-link(href='./productos.html')
-      .product-content
-        img.product-img(src='https://http2.mlstatic.com/D_NQ_NP_2X_600099-MLA40939775511_022020-F.webp' alt='Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca')
-        p.product-price $ 449.99
-        p.product-title
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-    .product
-      a.product-link(href='./productos.html')
-      .product-content
-        img.product-img(src='https://http2.mlstatic.com/D_NQ_NP_2X_600099-MLA40939775511_022020-F.webp' alt='Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca')
-        p.product-price $ 449.99
-        p.product-title
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-    .product
-      a.product-link(href='./productos.html')
-      .product-content
-        img.product-img(src='https://http2.mlstatic.com/D_NQ_NP_2X_600099-MLA40939775511_022020-F.webp' alt='Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca')
-        p.product-price $ 449.99
-        p.product-title
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-    .product
-      a.product-link(href='./productos.html')
-      .product-content
-        img.product-img(src='https://http2.mlstatic.com/D_NQ_NP_2X_600099-MLA40939775511_022020-F.webp' alt='Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca')
-        p.product-price $ 449.99
-        p.product-title
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-    .product
-      a.product-link(href='./productos.html')
-      .product-content
-        img.product-img(src='https://http2.mlstatic.com/D_NQ_NP_2X_600099-MLA40939775511_022020-F.webp' alt='Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca')
-        p.product-price $ 449.99
-        p.product-title
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-    .product
-      a.product-link(href='./productos.html')
-      .product-content
-        img.product-img(src='https://http2.mlstatic.com/D_NQ_NP_2X_600099-MLA40939775511_022020-F.webp' alt='Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca')
-        p.product-price $ 449.99
-        p.product-title
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-    .product
-      a.product-link(href='./productos.html')
-      .product-content
-        img.product-img(src='https://http2.mlstatic.com/D_NQ_NP_2X_600099-MLA40939775511_022020-F.webp' alt='Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca')
-        p.product-price $ 449.99
-        p.product-title
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
-          | Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca
+    each element, index in allProducts
+      .product
+        a.product-link(href=`./productos/${element._id}`)
+        .product-content
+          img.product-img(src=`${element.foto}`  alt='Balanza de cocina digital Electronic SF-400 pesa hasta 10kg blanca')
+          p.product-price $ #{element.precio}
+          p.product-title
+            | #{element.nombre}
 .chat-container
   button#chat-action-open Chat online
   button#chat-action-close X

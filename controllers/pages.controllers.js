@@ -1,10 +1,11 @@
 const yargs = require('yargs/yargs')
-const { UsersDao } = require('../models/daos/index')
+const { UsersDao, ProductsDao } = require('../models/daos/index')
 require('dotenv').config()
-const { fork } = require('child_process')
-const { MODE, RunningMode } = require('../config')
-const blockingProcess = require('./blockProcess')
+const { HOST, PORT } = require('../config')
 const os = require('os')
+
+const products = new ProductsDao()
+const user = new UsersDao()
 
 const args = yargs(process.argv.slice(2))
   .alias({
@@ -13,24 +14,31 @@ const args = yargs(process.argv.slice(2))
     u: 'mongoUser'
   })
   .argv
-const usersDao = new UsersDao()
-
-const renderRandoms = async (req, res, next) => {
-  const queryQuant = req.query?.cant ?? 100e6
-  if (MODE === RunningMode.Fork) {
-    const blockingCount = fork('./controllers/blockProcess.js')
-    blockingCount.send(queryQuant)
-    blockingCount.on('message', (data) => {
-      res.send({ data })
-    })
-  } else { res.send({ data: blockingProcess(queryQuant) }) }
-}
 
 const renderSign = async (req, res, next) => {
   if (req.session?.user) {
     console.log('redirigido a productos')
     res.redirect('./productos')
   } else { res.render('loginRegister') }
+}
+
+const renderProfile = async (req, res, next) => {
+  const userInfo = await user.getById(req.session.passport.user).then(info => info)
+  const userInfoToRender = {
+    address: userInfo.address,
+    age: userInfo.age,
+    avatar: userInfo.avatar.replace(/\\/g, '/').replace('public', `${HOST}:${PORT}`),
+    email: userInfo.email,
+    name: userInfo.name,
+    phone: userInfo.phone
+  }
+  console.log('userInfoToRender')
+  console.log(userInfoToRender)
+  if (req.session?.user) {
+    console.log('renderProfile: redirigido a productos')
+    console.log('req.session?.user', req.session?.user)
+    res.redirect('./productos')
+  } else { res.render('profile', { userInfoToRender: userInfoToRender }) }
 }
 
 const renderRegisterError = async (req, res, next) => {
@@ -113,23 +121,22 @@ const renderLoginError = async (req, res, next) => {
 }
 
 const renderProducts = async (req, res, next) => {
+  const allProducts = await products.getAll().then(products => products)
   try {
-    if (req?.user) { res.render('products') } else { res.redirect('./login-register') }
+    if (req?.user) { res.render('products', { allProducts: allProducts }) } else { res.redirect('./login-register') }
   } catch (error) {
     next(error)
   }
 }
 
-const login = async (req, res, email, password) => {
-  console.log({ email, password })
+const renderProductDetails = async (req, res, next) => {
+  const productId = req.params.productId
+  const product = await products.getById(productId).then(product => product)
+  // product = { ...product, descripcion: product.descripcion.replace(/\n/g, String.fromCharCode(10)) }
   try {
-    const user = await usersDao.getByEmail(email)
-    if (user?.password === password) {
-      req.session.user = email
-      res.render('products')
-    } else res.render('loginRegister')
+    if (req?.user) { res.render('productDetails', { product: product }) } else { res.redirect('/productos') }
   } catch (error) {
-    res.render('loginRegister')
+    next(error)
   }
 }
 
@@ -139,39 +146,14 @@ const logoutUser = async (req, res) => {
   })
 }
 
-const register = async (req, res, email, password, passwordConfirmation, alias, nombre, apellido) => {
-  console.log({ alias, apellido, email, nombre, password, passwordConfirmation })
-  try {
-    if (password === passwordConfirmation) {
-      const user = { alias, apellido, email, nombre, password }
-      await usersDao.create(user)
-      req.session.user = email
-      res.render('products')
-    } else res.render('loginRegister')
-  } catch (error) {
-    res.render('loginRegister')
-  }
-}
-const auth = {
-  login,
-  register
-}
-
-const authUser = async (req, res, next) => {
-  const { email, password, passwordConfirmation, alias, nombre, apellido } = req.body
-  if (passwordConfirmation === undefined) {
-    auth.login(req, res, email, password)
-  } else auth.register(req, res, email, password, passwordConfirmation, alias, nombre, apellido)
-}
-
 module.exports = {
-  authUser,
   logoutUser,
   renderInfo,
   renderInfoZip,
   renderLoginError,
+  renderProductDetails,
   renderProducts,
-  renderRandoms,
+  renderProfile,
   renderRegisterError,
   renderSign
 }

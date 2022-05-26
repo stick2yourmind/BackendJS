@@ -67,9 +67,25 @@ class MongoContainer {
     return deletedDocument
   }
 
+  /**
+ *
+ *
+ * @param {*} cartId
+ * @param {*} item
+ * @param {*} arr
+ * @return {*}
+ * @memberof MongoContainer
+ * Example at mongoDB:
+ * db.carts.updateOne(
+ * {_id:ObjectId("628ee0e0f8d8f9ca2e533028")},
+ * { $push: { products:
+ *    {_id: ObjectId("628c3cf921a40c383e3be9b4"), price: 8, quantity: 10} } } )
+ */
   async addItemToArray (cartId, item, arr) {
+    console.log('item at addItemToArray:')
+    console.log(item)
     if (!mongoose.isValidObjectId(cartId)) { throw new Error(`-MongoDB- ${cartId} is not a valid ObjectId`) }
-    const updatedDocument = await this.Model.updateOne({ _id: cartId }, { $push: { [arr]: item } })
+    const updatedDocument = await this.Model.updateOne({ _id: cartId }, { $push: { [arr]: { _id: item._id, price: item.price, quantity: item.quantity } } })
     if (!updatedDocument.matchedCount) { throw new Error(`-MongoDB- Document with id: ${cartId} could not been found!`) }
     return updatedDocument
   }

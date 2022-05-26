@@ -36,7 +36,7 @@ if (!cluster.isMaster || (MODE === RunningMode.Fork)) {
   app.use(session({
     cookie: {
       hostOnly: true,
-      maxAge: 600000,
+      maxAge: 6000000,
       signed: true
     },
     name: 'ch-session',
@@ -57,6 +57,7 @@ if (!cluster.isMaster || (MODE === RunningMode.Fork)) {
   })
   app.use('/api', apiRoutes)
   app.use('/', pageRoutes)
+
   app.listen(process.env.PORT, '0.0.0.0', () => {
     console.log(`Server running on port: ${process.env.PORT}`)
   })
