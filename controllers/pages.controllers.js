@@ -1,7 +1,6 @@
 const yargs = require('yargs/yargs')
 const { UsersDao, ProductsDao } = require('../models/daos/index')
 require('dotenv').config()
-const { HOST, PORT } = require('../config')
 const os = require('os')
 
 const products = new ProductsDao()
@@ -37,7 +36,7 @@ const renderProfile = async (req, res, next) => {
   const userInfoToRender = {
     address: userInfo.address,
     age: userInfo.age,
-    avatar: userInfo.avatar.replace(/\\/g, '/').replace('public', `${HOST}:${PORT}`),
+    avatar: userInfo.avatar.replace(/\\/g, '/').replace('public', `${process.env.DOMAIN}`),
     email: userInfo.email,
     name: userInfo.name,
     phone: userInfo.phone

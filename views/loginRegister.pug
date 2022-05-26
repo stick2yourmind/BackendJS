@@ -19,7 +19,7 @@ header
       #signin-container
         h3 Ingresar
         input.input-form(type='text' placeholder='Correo electronico' name='username')
-        input.input-form(type='text' placeholder='Contraseña' name='password')
+        input.input-form(type='password' placeholder='Contraseña' name='password')
         button.button(type='submit') Ingresar
         p#signup-action.action-form Registrarse
     form#form-sign-up(method='post'  action="/register" enctype="multipart/form-data")
@@ -30,8 +30,8 @@ header
         input.input-form(type='text' placeholder='Dirección' name='address')
         input.input-form(type='text' placeholder='Edad' name='age')
         input.input-form(type='text' placeholder='Telefono' name='phone')
-        input.input-form(type='text' placeholder='Contraseña' name='password')
-        input.input-form(type='text' placeholder='Repetir contraseña' name='passwordConfirmation')
+        input.input-form(type='password' placeholder='Contraseña' name='password')
+        input.input-form(type='password' placeholder='Repetir contraseña' name='passwordConfirmation')
         input.input-form(type='file' placeholder='avatar' name='avatar')
         button.button(type='submit') Registrarse
         p#signin-action.action-form Ingresar
