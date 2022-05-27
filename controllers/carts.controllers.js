@@ -1,7 +1,9 @@
 const { CartsDao, ProductsDao, UsersDao } = require('../models/daos/index')
 const nodemailer = require('nodemailer')
-const { SERVICE_EMAIL } = require('../config')
+const { SERVICE_EMAIL, TWILIO } = require('../config')
+const msgSender = require('../services/messages/smsWhatsapp')
 const pug = require('pug')
+const path = require('path')
 
 const transporter = nodemailer.createTransport({
   auth: {
@@ -75,12 +77,14 @@ const closeCartById = async (req, res, next) => {
       return productToReturn
     }))
     const subject = `Nuevo pedido de ${user.name} - ${user.email} `
-    const html = pug.renderFile('newCheckout.pug', {
+    const html = pug.renderFile(path.join(__dirname, '../views/newCheckoutEmailNotification.pug'), {
       cartId: cartId,
       products: products
     })
     transporter.sendMail(mailOptions(SERVICE_EMAIL.user, subject, html))
     transporter.sendMail(mailOptions(user.email, 'Estamos preparando tu pedido', html))
+    msgSender(TWILIO.WHATSAPP, 'whatsapp:+5491123926693', `Estamos preparando tu pedido: ${cartId}`)
+    msgSender(TWILIO.SMS, '+5491123926693', `Estamos preparando tu pedido: ${cartId}`)
     res.json({ success: true })
   } catch (error) {
     next(error)

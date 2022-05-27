@@ -35,19 +35,25 @@ module.exports = {
     },
     MONGO_ATLAS: {
       options: null,
-      uri: process.env.MONGO_ATLAS_URI || 'mongodb+srv://anker:tiXCScG6jgbKTXoP@coderhouse-ecommerce.mxktd.mongodb.net/sesiones?retryWrites=true&w=majority'
+      uri: process.env.MONGO_ATLAS_URI || ''
     }
   },
-  HOST: process.env.HOST || 'http://localhost',
+  HOST: process.env.HOST,
   MODE: args.mode,
-  PASSPORT_SECRET: process.env.PASSPORT_SECRET || 'palabra-secreta',
+  PASSPORT_SECRET: process.env.PASSPORT_SECRET || '',
   PERS: process.env.PERS || 'MONGO',
   PORT: args.port || process.env.PORT,
   RunningMode,
   SERVICE_EMAIL: {
-    pass: process.env.SELLER_EMAIL_PASS || 'bnjgnpzrraioqlft',
+    pass: process.env.SELLER_EMAIL_PASS || '',
     port: 465,
     service: 'gmail',
-    user: process.env.SELLER_EMAIL || 'cuentaalpedo2022@gmail.com'
+    user: process.env.SELLER_EMAIL || ''
+  },
+  TWILIO: {
+    ACCOUNT: process.env.TWILIO_ACCOUNT,
+    SMS: process.env.TWILIO_SMS,
+    TOKEN: process.env.TWILIO_TOKEN,
+    WHATSAPP: process.env.TWILIO_WHATSAPP
   }
 }

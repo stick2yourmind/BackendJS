@@ -4,6 +4,8 @@ const bcrypt = require('bcrypt')
 const nodemailer = require('nodemailer')
 const { SERVICE_EMAIL } = require('../config')
 const pug = require('pug')
+const path = require('path')
+const phoneIsValid = require('../services/messages/phoneValidator')
 
 const transporter = nodemailer.createTransport({
   auth: {
@@ -52,6 +54,11 @@ passport.use('register', new LocalStrategy({
 },
 async (req, username, password, done) => {
   try {
+    const isValid = await phoneIsValid(req.body.phone)
+    if (!isValid) {
+      const error = { code: 450, message: 'Phone number is not valid', name: 'Error while validating phone number' }
+      throw error
+    }
     const newUser = {
       address: req.body.address,
       age: req.body.age,
@@ -65,7 +72,7 @@ async (req, username, password, done) => {
     const userSaved = await User.create(newUser)
     console.log('Registration succesfull!')
     const subject = `Nuevo registro de ${newUser.name} - ${newUser.email} `
-    const html = pug.renderFile('newUserEmailNotification.pug', {})
+    const html = pug.renderFile(path.join(__dirname, '../views/newUserEmailNotification.pug'), {})
     transporter.sendMail(mailOptions(SERVICE_EMAIL.user, subject, html))
     console.log('Email notification sent!!')
     return done(null, userSaved)
