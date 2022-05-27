@@ -11,6 +11,8 @@ let RunningMode = []
 /* eslint-enable  */
 enumerator(RunningMode, 'Cluster', 'Fork')
 // console.log('Mode.Fork: ', Mode.Fork)
+const CLUSTER_MODE = '2'
+const FORK_MODE = '1'
 
 const args = yargs(process.argv.slice(2))
   .alias({
@@ -20,12 +22,10 @@ const args = yargs(process.argv.slice(2))
     u: 'mongoUser'
   })
   .default({
-    mode: RunningMode.Fork,
+    mode: FORK_MODE,
     port: 8080
   })
   .argv
-
-console.log('args: ', args)
 
 module.exports = {
   DB_CONFIG: {
@@ -35,20 +35,21 @@ module.exports = {
     },
     MONGO_ATLAS: {
       options: null,
-      uri: process.env.MONGO_ATLAS_URI || ''
+      uri: process.env.MONGO_ATLAS_URI
     }
   },
   HOST: process.env.HOST,
-  MODE: args.mode,
-  PASSPORT_SECRET: process.env.PASSPORT_SECRET || '',
+  MODE: process.env.SERVER_MODE,
+  PASSPORT_SECRET: process.env.PASSPORT_SECRET,
   PERS: process.env.PERS || 'MONGO',
   PORT: args.port || process.env.PORT,
-  RunningMode,
+  RUNNING_MODE_CLUSTER: CLUSTER_MODE,
+  RUNNING_MODE_FORK: FORK_MODE,
   SERVICE_EMAIL: {
-    pass: process.env.SELLER_EMAIL_PASS || '',
+    pass: process.env.SELLER_EMAIL_PASS,
     port: 465,
     service: 'gmail',
-    user: process.env.SELLER_EMAIL || ''
+    user: process.env.SELLER_EMAIL
   },
   TWILIO: {
     ACCOUNT: process.env.TWILIO_ACCOUNT,

@@ -1,5 +1,5 @@
 const express = require('express')
-const { PASSPORT_SECRET, DB_CONFIG, MODE, RunningMode } = require('./config')
+const { PASSPORT_SECRET, DB_CONFIG, MODE, RUNNING_MODE_CLUSTER, RUNNING_MODE_FORK } = require('./config')
 const apiRoutes = require('./routers/index')
 const pageRoutes = require('./routers/pages')
 const path = require('path')
@@ -13,14 +13,14 @@ const { infoLogger } = require('./utils/logger/config')
 const chalk = require('chalk')
 const log = console.log
 
-if (cluster.isMaster && (MODE === RunningMode.Cluster)) {
+if (cluster.isMaster && (MODE === RUNNING_MODE_CLUSTER)) {
   log(chalk.bgHex('#DEADED').inverse('Cluster mode running'))
   log(chalk.bgHex('#DEADED').inverse(`Master is running with PID: ${process.pid}`))
   for (let i = 0; i < numCPUs; i++) { cluster.fork() }
 }
 
-if (!cluster.isMaster || (MODE === RunningMode.Fork)) {
-  if (MODE === RunningMode.Fork) {
+if (!cluster.isMaster || (MODE === RUNNING_MODE_FORK)) {
+  if (MODE === RUNNING_MODE_FORK) {
     log(chalk.bgHex('#DEADED').inverse('Fork mode running'))
   }
   log(chalk.bgHex('#DEADED').inverse(`Worker is running with PID: ${process.pid}`))
