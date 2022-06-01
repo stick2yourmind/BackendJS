@@ -2,7 +2,7 @@ const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
 
-const { UsersDao } = require('../models/daos/index')
+const { UsersDao } = require('../persistence/models/daos/index')
 
 const User = new UsersDao()
 

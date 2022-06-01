@@ -1,10 +1,11 @@
 const log4js = require('log4js')
+const path = require('path')
 
 log4js.configure({
   appenders: {
     console: { type: 'console' },
-    errorFile: { filename: 'error.log', type: 'file' },
-    warningFile: { filename: 'warn.log', type: 'file' }
+    errorFile: { filename: path.join(process.cwd(), '/logs/error.log'), type: 'file' },
+    warningFile: { filename: path.join(process.cwd(), '/logs/warn.log'), type: 'file' }
   },
   categories: {
     default: { appenders: ['console'], level: 'trace' },

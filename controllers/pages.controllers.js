@@ -1,5 +1,5 @@
 const yargs = require('yargs/yargs')
-const { UsersDao } = require('../models/daos/index')
+const { UsersDao } = require('../persistence/models/daos/index')
 require('dotenv').config()
 const { fork } = require('child_process')
 const { MODE, RunningMode } = require('../config')

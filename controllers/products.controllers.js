@@ -1,4 +1,4 @@
-const { ProductsDao } = require('../models/daos/index')
+const { ProductsDao } = require('../persistence/models/daos/index')
 
 const productsDao = new ProductsDao()
 

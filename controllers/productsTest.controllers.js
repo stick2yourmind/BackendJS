@@ -1,4 +1,4 @@
-const Faker = require('../models/faker/productsTest')
+const Faker = require('../persistence/models/faker/productsTest')
 
 const faker = new Faker()
 
