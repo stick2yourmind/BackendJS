@@ -37,7 +37,7 @@ const renderProfile = async (req, res, next) => {
   const userInfoToRender = {
     address: userInfo.address,
     age: userInfo.age,
-    avatar: avatarLink.slice(avatarLink.indexOf('http')),
+    avatar: avatarLink,
     email: userInfo.email,
     name: userInfo.name,
     phone: userInfo.phone
