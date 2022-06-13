@@ -47,8 +47,8 @@ module.exports = {
   RUNNING_MODE_FORK: FORK_MODE,
   SERVICE_EMAIL: {
     pass: process.env.SELLER_EMAIL_PASS,
-    port: 465,
-    service: 'gmail',
+    port: process.env.EMAIL_PORT,
+    service: process.env.SELLER_EMAIL_SERVICE,
     user: process.env.SELLER_EMAIL
   },
   TWILIO: {

@@ -130,9 +130,8 @@ const renderLoginError = async (req, res, next) => {
 }
 
 const renderProducts = async (req, res, next) => {
-  const allProducts = await products.getAll().then(products => products)
   try {
-    if (req?.user) { res.render('products', { allProducts: allProducts }) } else { res.redirect('./login-register') }
+    if (req?.user) { const allProducts = await products.getAll().then(products => products); console.log('Hallado usuario: ', req.user); res.render('products', { allProducts: allProducts }) } else { res.redirect('./login-register') }
   } catch (error) {
     next(error)
   }
