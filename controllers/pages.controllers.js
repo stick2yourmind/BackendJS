@@ -33,10 +33,11 @@ const renderProfile = async (req, res, next) => {
   console.log('req.session.passport.user')
   console.log(req.session.passport.user)
   const userInfo = await usersDao.getById(req.session.passport.user).then(info => info)
+  avatarLink = userInfo.avatar.replace(/\\/g, '/').replace('public', `${process.env.DOMAIN}`)
   const userInfoToRender = {
     address: userInfo.address,
     age: userInfo.age,
-    avatar: userInfo.avatar.replace(/\\/g, '/').replace('public', `${process.env.DOMAIN}`),
+    avatar: avatarLink.slice(avatarLink.indexOf('http')),
     email: userInfo.email,
     name: userInfo.name,
     phone: userInfo.phone

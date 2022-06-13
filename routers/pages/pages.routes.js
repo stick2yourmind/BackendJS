@@ -1,4 +1,5 @@
 const { Router } = require('express')
+const path = require('path')
 const {
   renderProducts,
   renderProductDetails,
@@ -16,7 +17,7 @@ const compression = require('compression')
 const multer = require('multer')
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => { cb(null, 'public/avatars') },
+  destination: (req, file, cb) => { cb(null, path.join(process.cwd(), `/public/avatars`)) },
   filename: (req, file, cb) => {
     const extension = file.mimetype.split('/')[1]
     cb(null, `${file.fieldname}-${Date.now()}.${extension}`)
