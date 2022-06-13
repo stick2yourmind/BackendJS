@@ -2,9 +2,15 @@ const mongoose = require('mongoose')
 const { DB_CONFIG } = require('../../config')
 
 class MongoContainer {
+  static #collectionInstances = {};
   constructor (collection, schema) {
-    this.connect().then(() => console.log('Connecting to MongoDB...'))
-    this.Model = mongoose.model(collection, schema)
+    if(!MongoContainer.#collectionInstances[collection]){
+      this.connect().then(() => console.log(`Connecting to MongoDB collection: ${collection}...`))
+      this.collection = collection
+      this.Model = mongoose.model(collection, schema)
+      MongoContainer.#collectionInstances[collection] = this
+    }
+    else return MongoContainer.#collectionInstances[collection]
   }
 
   async connect () {
@@ -12,7 +18,7 @@ class MongoContainer {
       !DB_CONFIG.MONGO.options
         ? mongoose.connect(DB_CONFIG.MONGO_ATLAS.uri)
         : mongoose.connect(DB_CONFIG.MONGO_ATLAS.uri, DB_CONFIG.MONGO_ATLAS.options)
-      mongoose.connection.on('connected', () => console.log('Mongoose connected to MongoDB server!'))
+        mongoose.connection.on('open', () => console.log(`Mongoose: ${this.collection}'s model connected!`))
       mongoose.connection.on('error', () => console.log('Mongoose connection could not been established'))
       mongoose.connection.on('disconnected', () => console.log('Mongoose default connection: is not connected'))
     } catch (error) {

@@ -1,10 +1,10 @@
-const { ProductsDao } = require('../models/daos/index')
+const ProductsRepo = require('../models/repositories/products.repo')
 
-const productsDao = new ProductsDao()
+const ProductsRepository = new ProductsRepo()
 
 const getAllProducts = async (req, res, next) => {
   try {
-    const products = await productsDao.getAll()
+    const products = await ProductsRepository.getAll()
     res.json({ products, success: true })
   } catch (error) {
     next(error)
@@ -14,7 +14,7 @@ const getAllProducts = async (req, res, next) => {
 const getProductById = async (req, res, next) => {
   const { id } = req.params
   try {
-    const product = await productsDao.getById(id)
+    const product = await ProductsRepository.getById(id)
     res.json({ product, success: true })
   } catch (error) {
     next(error)
@@ -23,7 +23,7 @@ const getProductById = async (req, res, next) => {
 
 const createProduct = async (req, res, next) => {
   try {
-    const newProduct = await productsDao.create(req.body)
+    const newProduct = await ProductsRepository.create(req.body)
     res.json({ result: newProduct, success: true })
   } catch (error) {
     next(error)
@@ -33,7 +33,7 @@ const createProduct = async (req, res, next) => {
 const updateProductById = async (req, res, next) => {
   const { params: { id }, body } = req
   try {
-    const updatedProduct = await productsDao.updateById(id, body)
+    const updatedProduct = await ProductsRepository.updateById(id, body)
     res.json({ result: updatedProduct, success: true })
   } catch (error) {
     next(error)
@@ -43,7 +43,7 @@ const updateProductById = async (req, res, next) => {
 const deleteProductById = async (req, res, next) => {
   const { id } = req.params
   try {
-    const deletedProduct = await productsDao.deleteById(id)
+    const deletedProduct = await ProductsRepository.deleteById(id)
     res.json({ result: deletedProduct, success: true })
   } catch (error) {
     next(error)

@@ -6,6 +6,7 @@ const { SERVICE_EMAIL } = require('../config')
 const pug = require('pug')
 const path = require('path')
 const phoneIsValid = require('../services/messages/phoneValidator')
+const DaosFactory = require('../models/daos/daos.factory')
 
 const transporter = nodemailer.createTransport({
   auth: {
@@ -23,9 +24,7 @@ const mailOptions = (to, subject, html) => ({
   to
 })
 
-const { UsersDao } = require('../models/daos/index')
-
-const User = new UsersDao()
+const usersDao = DaosFactory.getDaos('users').UsersDao
 
 const salt = () => bcrypt.genSaltSync(10)
 const createHash = password => bcrypt.hashSync(password, salt())
@@ -33,7 +32,7 @@ const isValidPassword = (user, password) => bcrypt.compareSync(password, user.pa
 
 passport.use('login', new LocalStrategy(async (username, password, done) => {
   try {
-    const user = await User.getByEmail(username)
+    const user = await usersDao.getByEmail(username)
     console.log('user (passport.use(login):')
     console.log(user)
     console.log(`(user.password, password): (${user.password}, ${password})`)
@@ -69,7 +68,7 @@ async (req, username, password, done) => {
       phone: req.body.phone
     }
     console.log('newUser:\n', newUser)
-    const userSaved = await User.create(newUser)
+    const userSaved = await usersDao.create(newUser)
     console.log('Registration succesfull!')
     const subject = `Nuevo registro de ${newUser.name} - ${newUser.email} `
     const html = pug.renderFile(path.join(__dirname, '../views/newUserEmailNotification.pug'), {})
@@ -89,7 +88,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
   console.log('Inside deserializer')
-  const user = User.getById(id)
+  const user = usersDao.getById(id)
   done(null, user)
 })
 

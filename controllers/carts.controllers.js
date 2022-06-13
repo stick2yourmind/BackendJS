@@ -1,9 +1,9 @@
-const { CartsDao, ProductsDao, UsersDao } = require('../models/daos/index')
 const nodemailer = require('nodemailer')
 const { SERVICE_EMAIL, TWILIO } = require('../config')
 const msgSender = require('../services/messages/smsWhatsapp')
 const pug = require('pug')
 const path = require('path')
+const DaosFactory = require('../models/daos/daos.factory')
 
 const transporter = nodemailer.createTransport({
   auth: {
@@ -21,9 +21,9 @@ const mailOptions = (to, subject, html) => ({
   to
 })
 
-const cartsDao = new CartsDao()
-const productsDao = new ProductsDao()
-const usersDao = new UsersDao()
+const cartsDao = DaosFactory.getDaos('carts').CartsDao
+const productsDao = DaosFactory.getDaos('products').ProductsDao
+const usersDao = DaosFactory.getDaos('users').UsersDao
 /**
  * Get all carts from a user, server receives an empty JSON.
  *

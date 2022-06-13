@@ -1,6 +1,6 @@
-const { UsersDao } = require('../models/daos/index')
+const DaosFactory = require('../models/daos/daos.factory')
 
-const usersDao = new UsersDao()
+const usersDao = DaosFactory.getDaos('users').UsersDao
 
 const createUser = async (req, res, next) => {
   try {

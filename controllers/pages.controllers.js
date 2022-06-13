@@ -1,10 +1,10 @@
 const yargs = require('yargs/yargs')
-const { UsersDao, ProductsDao } = require('../models/daos/index')
+const DaosFactory = require('../models/daos/daos.factory')
 require('dotenv').config()
 const os = require('os')
 
-const products = new ProductsDao()
-const user = new UsersDao()
+const productsDao = DaosFactory.getDaos('products').ProductsDao
+const usersDao = DaosFactory.getDaos('users').UsersDao
 
 const args = yargs(process.argv.slice(2))
   .alias({
@@ -32,7 +32,7 @@ const renderSign = async (req, res, next) => {
 const renderProfile = async (req, res, next) => {
   console.log('req.session.passport.user')
   console.log(req.session.passport.user)
-  const userInfo = await user.getById(req.session.passport.user).then(info => info)
+  const userInfo = await usersDao.getById(req.session.passport.user).then(info => info)
   const userInfoToRender = {
     address: userInfo.address,
     age: userInfo.age,
@@ -131,7 +131,7 @@ const renderLoginError = async (req, res, next) => {
 
 const renderProducts = async (req, res, next) => {
   try {
-    if (req?.user) { const allProducts = await products.getAll().then(products => products); console.log('Hallado usuario: ', req.user); res.render('products', { allProducts: allProducts }) } else { res.redirect('./login-register') }
+    if (req?.user) { const allProducts = await productsDao.getAll().then(products => products); console.log('Hallado usuario: ', req.user); res.render('products', { allProducts: allProducts }) } else { res.redirect('./login-register') }
   } catch (error) {
     next(error)
   }
@@ -139,7 +139,7 @@ const renderProducts = async (req, res, next) => {
 
 const renderProductDetails = async (req, res, next) => {
   const productId = req.params.productId
-  const product = await products.getById(productId).then(product => product)
+  const product = await productsDao.getById(productId).then(product => product)
   // product = { ...product, descripcion: product.descripcion.replace(/\n/g, String.fromCharCode(10)) }
   try {
     if (req?.user) { res.render('productDetails', { product: product }) } else { res.redirect('/productos') }
