@@ -17,7 +17,7 @@ const compression = require('compression')
 const multer = require('multer')
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => { cb(null, path.join(__dirname, '../../public/avatars')) },
+  destination: (req, file, cb) => { cb(null, path.join(__dirname, 'public')) },
   filename: (req, file, cb) => {
     const extension = file.mimetype.split('/')[1]
     cb(null, `${file.fieldname}-${Date.now()}.${extension}`)
