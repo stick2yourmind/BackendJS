@@ -16,7 +16,10 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 const ProductsModel = use('App/Models/Product')
-Route.on('/').render('welcome')
+Route.get('/', async ({view}) => {
+  const products = (await ProductsModel.all()).toJSON()
+  return view.render('products', {products})
+})
 Route.get('/api/productos', async () => {
   const products = (await ProductsModel.all()).toJSON()
   return products
