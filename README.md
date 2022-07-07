@@ -1,3 +1,7 @@
+# Inserting products
+
+SQL script at /scripts/productos.sql
+
 # Adonis fullstack application
 
 This is the fullstack boilerplate for AdonisJs, it comes pre-configured with.

@@ -20,6 +20,11 @@ Route.get('/', async ({view}) => {
   const products = (await ProductsModel.all()).toJSON()
   return view.render('products', {products})
 })
+Route.get('/productos/:id', async ({params, view}) => {
+  const id = params.id
+  const product = (await ProductsModel.find(id)).toJSON()
+  return view.render('productDetails', {product, text: product.descripcion.split('\n')})
+})
 Route.get('/api/productos', async () => {
   const products = (await ProductsModel.all()).toJSON()
   return products
