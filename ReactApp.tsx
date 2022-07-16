@@ -2,7 +2,11 @@
 
 import { React } from "./dep.ts";
 
-const App = ({colors}) => {
+interface AppProps {
+  colors: Array<string>
+}
+
+const App:React.FC<AppProps> = ({colors}) => {
   // const [colors, setColors] = React.useState(["#ffffff"])
   return (
     <>
@@ -11,7 +15,7 @@ const App = ({colors}) => {
       <input type="submit" value="Enviar"/>
     </form>
     <ul>
-      {colors.map( color => (<li>{color}</li>))}
+      {colors.map( color => (<li style={{color}}>{color}</li>))}
     </ul>
     </>
   )

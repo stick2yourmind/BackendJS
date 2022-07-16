@@ -2,7 +2,7 @@
 import {React, ReactDOMServer, createApp} from "./dep.ts";
 import ReactApp from "./ReactApp.tsx"
 
-let colors = ["#ffffff"]
+const colors:Array<string> = []
 
 const app = createApp();
 app.get("/", async (req) => {
@@ -12,7 +12,7 @@ app.get("/", async (req) => {
       "content-type": "text/html; charset=UTF-8",
     }),
     body: ReactDOMServer.renderToString(
-      <html>
+      <html style={{backgroundColor: "black"}}>
         <head>
           <meta charSet="utf-8" />
           <title>servest</title>
@@ -27,7 +27,10 @@ app.get("/", async (req) => {
 
 app.post("/", async (req) => {
   const bodyForm  = await req.formData();
-  colors.push(bodyForm.value("color"))
+  const newColor = bodyForm.value("color")
+  if (newColor)
+    colors.push(newColor)
   console.log(colors)
+  req.redirect("/")
 })
 app.listen({ port: 8888 });
